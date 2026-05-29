@@ -1,117 +1,96 @@
 import 'package:flutter/cupertino.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'app_colors.dart';
 
-/// Ampex design tokens – typografi.
-///
-/// Scale inspirert av iOS HIG.
+/// Ampex typografi – Inter på alle plattformer (lastes riktig på web).
 abstract final class AppTypography {
-  /// Inter lastes på web via index.html; SF/system på native.
-  static const String _fontFamily = 'Inter';
-  static const List<String> _fontFallback = [
-    '.SF Pro Text',
-    '-apple-system',
-    'BlinkMacSystemFont',
-    'system-ui',
-    'Roboto',
-    'sans-serif',
-  ];
+  static TextStyle _inter({
+    required double size,
+    required FontWeight weight,
+    required Color color,
+    double height = 1.35,
+    double letterSpacing = 0,
+  }) {
+    return GoogleFonts.inter(
+      fontSize: size,
+      fontWeight: weight,
+      color: color,
+      height: height,
+      letterSpacing: letterSpacing,
+    );
+  }
 
-  /// 34 · Bold · Large Title (skjermoverskrift)
-  static const largeTitle = TextStyle(
-    fontFamily: _fontFamily,
-    fontFamilyFallback: _fontFallback,
-    fontSize: 34,
-    fontWeight: FontWeight.w700,
-    letterSpacing: 0.37,
-    color: AppColors.label,
-    height: 1.2,
-  );
+  /// 32 · Bold · Skjermoverskrift / hilsen
+  static TextStyle get largeTitle => _inter(
+        size: 32,
+        weight: FontWeight.w700,
+        color: AppColors.label,
+        height: 1.12,
+        letterSpacing: -0.6,
+      );
 
-  /// 28 · SemiBold · Title 1
-  static const title1 = TextStyle(
-    fontFamily: _fontFamily,
-    fontFamilyFallback: _fontFallback,
-    fontSize: 28,
-    fontWeight: FontWeight.w600,
-    letterSpacing: 0.36,
-    color: AppColors.label,
-    height: 1.25,
-  );
+  static TextStyle get title1 => _inter(
+        size: 26,
+        weight: FontWeight.w600,
+        color: AppColors.label,
+        height: 1.2,
+        letterSpacing: -0.4,
+      );
 
-  /// 22 · SemiBold · Title 2
-  static const title2 = TextStyle(
-    fontFamily: _fontFamily,
-    fontFamilyFallback: _fontFallback,
-    fontSize: 22,
-    fontWeight: FontWeight.w600,
-    letterSpacing: 0.35,
-    color: AppColors.label,
-    height: 1.3,
-  );
+  static TextStyle get title2 => _inter(
+        size: 20,
+        weight: FontWeight.w600,
+        color: AppColors.label,
+        height: 1.25,
+        letterSpacing: -0.3,
+      );
 
-  /// 17 · SemiBold · Navigation / list title
-  static const headline = TextStyle(
-    fontFamily: _fontFamily,
-    fontFamilyFallback: _fontFallback,
-    fontSize: 17,
-    fontWeight: FontWeight.w600,
-    letterSpacing: -0.41,
-    color: AppColors.label,
-    height: 1.35,
-  );
+  /// Rad-tittel, knapper
+  static TextStyle get headline => _inter(
+        size: 16,
+        weight: FontWeight.w600,
+        color: AppColors.label,
+        height: 1.3,
+        letterSpacing: -0.2,
+      );
 
-  /// 17 · Regular · Body
-  static const body = TextStyle(
-    fontFamily: _fontFamily,
-    fontFamilyFallback: _fontFallback,
-    fontSize: 17,
-    fontWeight: FontWeight.w400,
-    letterSpacing: -0.41,
-    color: AppColors.label,
-    height: 1.35,
-  );
+  static TextStyle get body => _inter(
+        size: 16,
+        weight: FontWeight.w400,
+        color: AppColors.label,
+        height: 1.35,
+        letterSpacing: -0.15,
+      );
 
-  /// 15 · Regular · Callout / subtitle
-  static const callout = TextStyle(
-    fontFamily: _fontFamily,
-    fontFamilyFallback: _fontFallback,
-    fontSize: 15,
-    fontWeight: FontWeight.w400,
-    letterSpacing: -0.24,
-    color: AppColors.labelSecondary,
-    height: 1.4,
-  );
+  static TextStyle get callout => _inter(
+        size: 14,
+        weight: FontWeight.w400,
+        color: AppColors.labelSecondary,
+        height: 1.4,
+        letterSpacing: -0.1,
+      );
 
-  /// 13 · Regular · Footnote / caption
-  static const footnote = TextStyle(
-    fontFamily: _fontFamily,
-    fontFamilyFallback: _fontFallback,
-    fontSize: 13,
-    fontWeight: FontWeight.w400,
-    letterSpacing: -0.08,
-    color: AppColors.labelSecondary,
-    height: 1.4,
-  );
+  static TextStyle get footnote => _inter(
+        size: 13,
+        weight: FontWeight.w400,
+        color: AppColors.labelSecondary,
+        height: 1.35,
+      );
 
-  /// 13 · Medium · Section header / caption2
-  static const caption = TextStyle(
-    fontFamily: _fontFamily,
-    fontFamilyFallback: _fontFallback,
-    fontSize: 13,
-    fontWeight: FontWeight.w500,
-    letterSpacing: 0.06,
-    color: AppColors.labelSecondary,
-    height: 1.4,
-  );
+  static TextStyle get caption => _inter(
+        size: 12,
+        weight: FontWeight.w500,
+        color: AppColors.labelSecondary,
+        height: 1.3,
+        letterSpacing: 0.2,
+      );
 
-  /// 11 · SemiBold · Tab bar label
-  static const tabLabel = TextStyle(
-    fontFamily: _fontFamily,
-    fontFamilyFallback: _fontFallback,
-    fontSize: 11,
-    fontWeight: FontWeight.w500,
-    letterSpacing: 0.07,
-    height: 1.2,
-  );
+  static TextStyle get tabLabel => _inter(
+        size: 11,
+        weight: FontWeight.w500,
+        color: AppColors.labelSecondary,
+        height: 1.2,
+        letterSpacing: 0,
+      );
 }

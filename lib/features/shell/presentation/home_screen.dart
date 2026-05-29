@@ -115,7 +115,7 @@ class _HomeContent extends ConsumerWidget {
               children: [
                 Expanded(
                   child: AmpexQuickTile(
-                    icon: CupertinoIcons.doc_text_fill,
+                    icon: CupertinoIcons.doc_text,
                     label: 'Ordre',
                     color: AppColors.accent,
                     onTap: () => context.go(Routes.orders),
@@ -126,7 +126,7 @@ class _HomeContent extends ConsumerWidget {
                   child: AmpexQuickTile(
                     icon: CupertinoIcons.building_2_fill,
                     label: 'Prosjekter',
-                    color: AppColors.success,
+                    color: const Color(0xFF2D7A4F),
                     onTap: () => context.go(Routes.projects),
                   ),
                 ),
@@ -140,7 +140,7 @@ class _HomeContent extends ConsumerWidget {
             header: 'Mer',
             children: [
               AmpexListRow(
-                leading: CupertinoIcons.doc_text_fill,
+                leading: CupertinoIcons.doc_text,
                 leadingColor: AppColors.accent,
                 title: 'Alle ordre',
                 subtitle: 'Oppfølging og dokumentasjon',
@@ -148,7 +148,7 @@ class _HomeContent extends ConsumerWidget {
               ),
               AmpexListRow(
                 leading: CupertinoIcons.building_2_fill,
-                leadingColor: AppColors.success,
+                leadingColor: const Color(0xFF2D7A4F),
                 title: 'Alle prosjekter',
                 subtitle: 'Tegninger, rom og fremdrift',
                 onTap: () => context.go(Routes.projects),
@@ -163,7 +163,7 @@ class _HomeContent extends ConsumerWidget {
             footer: 'Deler innlogging med Ampex web.',
             children: [
               AmpexListRow(
-                leading: CupertinoIcons.person_fill,
+                leading: CupertinoIcons.person_crop_circle,
                 leadingColor: AppColors.labelSecondary,
                 title: profile.fullName.isNotEmpty ? profile.fullName : 'Profil',
                 value: roleLabelNorwegian(profile.role),

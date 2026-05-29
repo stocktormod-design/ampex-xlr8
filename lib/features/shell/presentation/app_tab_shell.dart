@@ -1,22 +1,32 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
 
-/// Tab bar shell – 3 faner: Hjem, Ordre, Prosjekter.
-///
-/// Ser og oppfører seg konsistent på iOS, Android og web.
+/// Tab bar – Cupertino-ikoner, ren typografi.
 class AppTabShell extends StatelessWidget {
   const AppTabShell({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 
   static const _tabs = [
-    _TabItem(icon: Icons.home_outlined, activeIcon: Icons.home_rounded, label: 'Hjem'),
-    _TabItem(icon: Icons.description_outlined, activeIcon: Icons.description_rounded, label: 'Ordre'),
-    _TabItem(icon: Icons.business_outlined, activeIcon: Icons.business_rounded, label: 'Prosjekter'),
+    _TabItem(
+      icon: CupertinoIcons.house,
+      activeIcon: CupertinoIcons.house_fill,
+      label: 'Hjem',
+    ),
+    _TabItem(
+      icon: CupertinoIcons.doc_text,
+      activeIcon: CupertinoIcons.doc_text_fill,
+      label: 'Ordre',
+    ),
+    _TabItem(
+      icon: CupertinoIcons.building_2_fill,
+      activeIcon: CupertinoIcons.building_2_fill,
+      label: 'Prosjekter',
+    ),
   ];
 
   @override
@@ -52,14 +62,17 @@ class _AmpexTabBar extends StatelessWidget {
     final bottomPadding = MediaQuery.paddingOf(context).bottom;
 
     return DecoratedBox(
-      decoration: const BoxDecoration(
-        color: AppColors.surfaceElevated,
+      decoration: BoxDecoration(
+        color: AppColors.surface.withValues(alpha: 0.98),
         border: Border(
-          top: BorderSide(color: AppColors.separator, width: 0.5),
+          top: BorderSide(
+            color: AppColors.separator.withValues(alpha: 0.8),
+            width: 0.5,
+          ),
         ),
       ),
       child: SizedBox(
-        height: AppSpacing.minTouch + 12 + bottomPadding,
+        height: 49 + bottomPadding,
         child: Padding(
           padding: EdgeInsets.only(bottom: bottomPadding),
           child: Row(
@@ -94,7 +107,7 @@ class _TabTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = active ? AppColors.accent : AppColors.labelSecondary;
+    final color = active ? AppColors.accent : AppColors.labelTertiary;
 
     return GestureDetector(
       onTap: onTap,
@@ -104,13 +117,16 @@ class _TabTile extends StatelessWidget {
         children: [
           Icon(
             active ? item.activeIcon : item.icon,
-            size: 24,
+            size: 23,
             color: color,
           ),
-          const SizedBox(height: 3),
+          const SizedBox(height: 2),
           Text(
             item.label,
-            style: AppTypography.tabLabel.copyWith(color: color),
+            style: AppTypography.tabLabel.copyWith(
+              color: color,
+              fontWeight: active ? FontWeight.w600 : FontWeight.w500,
+            ),
           ),
         ],
       ),

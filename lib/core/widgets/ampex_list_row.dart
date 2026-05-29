@@ -5,10 +5,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_typography.dart';
 
-/// Én rad i en [AmpexGroupedSection].
-///
-/// Samme API på alle plattformer. Chevron vises automatisk ved [onTap].
-/// Komfortabel høyde (min 56pt) for felt-bruk og «glide»-følelse.
+/// Én rad i en [AmpexGroupedSection] – iOS Settings-stil ikoner.
 class AmpexListRow extends StatelessWidget {
   const AmpexListRow({
     super.key,
@@ -39,21 +36,21 @@ class AmpexListRow extends StatelessWidget {
         showChevron ?? (onTap != null && trailing == null && value == null);
 
     final titleStyle = destructive
-        ? AppTypography.body.copyWith(color: AppColors.destructive)
-        : AppTypography.body;
+        ? AppTypography.headline.copyWith(color: AppColors.destructive)
+        : AppTypography.headline;
 
     final row = ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 56),
+      constraints: const BoxConstraints(minHeight: 52),
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.rowH,
-          vertical: 10,
+          vertical: 11,
         ),
         child: Row(
           children: [
             if (leading != null) ...[
-              _LeadingIcon(icon: leading!, color: leadingColor),
-              const SizedBox(width: AppSpacing.md - 2),
+              _SoftIcon(icon: leading!, color: leadingColor),
+              const SizedBox(width: 14),
             ],
             Expanded(
               child: Column(
@@ -62,11 +59,8 @@ class AmpexListRow extends StatelessWidget {
                 children: [
                   Text(title, style: titleStyle),
                   if (subtitle != null) ...[
-                    const SizedBox(height: 2),
-                    Text(
-                      subtitle!,
-                      style: AppTypography.footnote.copyWith(fontSize: 14),
-                    ),
+                    const SizedBox(height: 3),
+                    Text(subtitle!, style: AppTypography.footnote),
                   ],
                 ],
               ),
@@ -74,9 +68,14 @@ class AmpexListRow extends StatelessWidget {
             if (trailing != null)
               trailing!
             else if (value != null) ...[
-              Text(value!, style: AppTypography.callout),
+              Text(
+                value!,
+                style: AppTypography.callout.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
               if (effectiveShowChevron) ...[
-                const SizedBox(width: AppSpacing.sm),
+                const SizedBox(width: 6),
                 const _Chevron(),
               ],
             ] else if (effectiveShowChevron)
@@ -105,16 +104,17 @@ class _Chevron extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Icon(
+    return Icon(
       CupertinoIcons.chevron_forward,
-      size: 15,
-      color: AppColors.labelTertiary,
+      size: 14,
+      color: AppColors.labelTertiary.withValues(alpha: 0.9),
     );
   }
 }
 
-class _LeadingIcon extends StatelessWidget {
-  const _LeadingIcon({required this.icon, required this.color});
+/// Myk ikonbakgrunn – farget ikon på lys flate (ikke solid firkant).
+class _SoftIcon extends StatelessWidget {
+  const _SoftIcon({required this.icon, required this.color});
 
   final IconData icon;
   final Color color;
@@ -122,13 +122,18 @@ class _LeadingIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 32,
-      height: 32,
+      width: 34,
+      height: 34,
+      alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(8),
+        color: color.withValues(alpha: 0.14),
+        borderRadius: BorderRadius.circular(9),
       ),
-      child: Icon(icon, size: 18, color: Colors.white),
+      child: Icon(
+        icon,
+        size: 19,
+        color: color,
+      ),
     );
   }
 }

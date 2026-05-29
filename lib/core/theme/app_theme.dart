@@ -44,7 +44,7 @@ class AppTheme {
       ),
 
       // ── AppBar ──────────────────────────────────────────────────────────────
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         elevation: 0,
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.background,
@@ -56,8 +56,8 @@ class AppTheme {
         ),
       ),
 
-      // ── Text ────────────────────────────────────────────────────────────────
-      textTheme: const TextTheme(
+      // ── Text (Inter via AppTypography) ───────────────────────────────────────
+      textTheme: TextTheme(
         displayLarge: AppTypography.largeTitle,
         displayMedium: AppTypography.title1,
         displaySmall: AppTypography.title2,
@@ -129,7 +129,7 @@ class AppTheme {
       ),
 
       // ── BottomNavigation ────────────────────────────────────────────────────
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: AppColors.surfaceElevated,
         selectedItemColor: AppColors.accent,
         unselectedItemColor: AppColors.labelSecondary,
