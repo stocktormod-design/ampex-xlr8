@@ -12,17 +12,19 @@ class AppScaffold extends ConsumerWidget {
     required this.title,
     required this.body,
     this.actions,
+    this.showTitle = true,
   });
 
   final String title;
   final Widget body;
   final List<Widget>? actions;
+  final bool showTitle;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: showTitle ? Text(title) : null,
         actions: [
           ...?actions,
           IconButton(

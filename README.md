@@ -4,6 +4,8 @@ Operativsystemet for elektrofirmaer — mobilapp (Flutter).
 
 **Repository:** [stocktormod-design/ampex-xlr8](https://github.com/stocktormod-design/ampex-xlr8)
 
+> **Ikke ampex.no (Vercel):** Dette repoet er kun **Ampex Mobile** (Flutter). Det deployes ikke til [ampex.no](https://ampex.no) eller annen Vercel-web. Web/app på Vercel ligger i et **eget** repo og deles bare Supabase-backend.
+
 ## Miljøvariabler
 
 ```bash
@@ -37,6 +39,8 @@ cp .env.example .env
 flutter pub get
 dart run build_runner build
 ```
+
+**Testbruker:** se [docs/dev-setup.md](docs/dev-setup.md) (Auth + `profiles`-rad). Du kan også bruke samme innlogging som Ampex web.
 
 ## Kjør appen
 
