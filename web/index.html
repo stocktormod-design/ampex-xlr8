@@ -54,5 +54,17 @@
     * https://docs.flutter.dev/platform-integration/web/initialization
   -->
   <script src="flutter_bootstrap.js" async></script>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      document.getElementById('loading')?.remove();
+    });
+    setTimeout(function () {
+      var p = document.querySelector('#loading p');
+      if (p) {
+        p.textContent =
+          'Flutter laster fortsatt. Prøv «flutter run -d chrome» i terminalen, eller vent litt til.';
+      }
+    }, 45000);
+  </script>
 </body>
 </html>

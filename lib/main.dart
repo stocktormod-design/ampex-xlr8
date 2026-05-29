@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app.dart';
+import 'app_startup.dart';
 import 'bootstrap.dart';
 
 Future<void> main() async {
@@ -16,27 +17,32 @@ Future<void> main() async {
 
   await runZonedGuarded(
     () async {
-      await bootstrap(() async {
-        if (bootstrapErrorMessage != null) {
-          runApp(const BootstrapErrorApp());
-          return;
-        }
-        runApp(const ProviderScope(child: AmpexApp()));
-      });
+      try {
+        await loadEnvironment();
+      } catch (e) {
+        runApp(
+          BootstrapErrorApp(
+            message:
+                'Kunne ikke laste .env.\n\n'
+                'Kjør: cp .env.example .env\n'
+                'Deretter: flutter pub get && flutter run\n\n$e',
+          ),
+        );
+        return;
+      }
+
+      runApp(
+        ProviderScope(
+          child: AppStartup(
+            child: const AmpexApp(),
+          ),
+        ),
+      );
     },
     (error, stack) {
       debugPrint('Ufanget feil: $error\n$stack');
       runApp(
-        MaterialApp(
-          home: Scaffold(
-            body: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Text('Oppstartsfeil:\n$error'),
-              ),
-            ),
-          ),
-        ),
+        BootstrapErrorApp(message: 'Oppstartsfeil:\n$error'),
       );
     },
   );
