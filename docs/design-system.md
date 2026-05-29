@@ -87,8 +87,14 @@ Basert på 4pt grid. Minimum touch target: **44pt** (iOS HIG, feltbruk i sollys)
 
 Features skal **aldri** bruke rå `Card`, `FilledButton`, eller `ListTile` direkte. Bruk disse:
 
+### `AmpexBackdrop`
+En helt sort bakgrunn som skaper basen for all dybde i appen. Brukes som rot-element i Scaffold.
+
+### `AmpexGlass`
+Frostet glassflate tilpasset dark mode (svak hvit border).
+
 ### `AmpexScaffold`
-Sideskall med stor tittel, bouncing scroll, OfflineBanner. Alle listeskjermer bruker denne.
+Sideskall med stor tittel, bouncing scroll, OfflineBanner. Alle listeskjermer bruker denne. Ligger oppå en `AmpexBackdrop`.
 ```dart
 AmpexScaffold(
   title: 'Ordre',
@@ -97,7 +103,7 @@ AmpexScaffold(
 ```
 
 ### `AmpexGroupedSection`
-iOS Settings-seksjon. Hvit avrundet boks på grå bakgrunn.
+iOS Settings-seksjon tilpasset dark mode. Mørkegrå boks på sort bakgrunn.
 ```dart
 AmpexGroupedSection(
   header: 'Arbeid',
