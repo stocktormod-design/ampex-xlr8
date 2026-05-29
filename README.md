@@ -2,6 +2,8 @@
 
 Operativsystemet for elektrofirmaer — mobilapp (Flutter).
 
+**Repository:** [stocktormod-design/ampex-xlr8](https://github.com/stocktormod-design/ampex-xlr8)
+
 ## Miljøvariabler
 
 ```bash
