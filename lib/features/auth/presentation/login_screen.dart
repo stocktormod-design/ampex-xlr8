@@ -9,6 +9,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/ampex_error_banner.dart';
+import '../../../core/widgets/ampex_glass.dart';
 import '../../../core/widgets/ampex_grouped_section.dart';
 import '../../../core/widgets/ampex_primary_button.dart';
 import '../../../core/widgets/ampex_text_field.dart';
@@ -33,7 +34,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _emailFocus.requestFocus());
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _emailFocus.requestFocus());
   }
 
   @override
@@ -47,12 +49,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() { _loading = true; _error = null; });
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
     try {
       await ref.read(authRepositoryProvider).signInWithEmail(
-        email: _emailController.text.trim(),
-        password: _passwordController.text,
-      );
+            email: _emailController.text.trim(),
+            password: _passwordController.text,
+          );
     } catch (e) {
       setState(() => _error = authErrorMessageNorwegian(e));
     } finally {
@@ -94,114 +99,126 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.screenH,
-              vertical: AppSpacing.lg,
-            ),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 420),
-              child: Form(
-                key: _formKey,
+      backgroundColor: Colors.transparent,
+      body: AmpexBackdrop(
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.lg,
+              ),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 400),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    const SizedBox(height: AppSpacing.xl),
-
-                    // ── Merkevare ────────────────────────────────────────────
+                    _LogoMark(),
+                    const SizedBox(height: AppSpacing.lg),
                     Text(
                       AppConfig.appName,
-                      style: AppTypography.largeTitle,
+                      style: AppTypography.largeTitle.copyWith(fontSize: 36),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: AppSpacing.sm),
+                    const SizedBox(height: AppSpacing.xs),
                     Text(
-                      'Logg inn for å fortsette',
+                      'Operativsystemet for elektrofirmaer',
                       style: AppTypography.callout,
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: AppSpacing.xxl - 4),
+                    const SizedBox(height: AppSpacing.xl),
 
-                    // ── Feltgruppe ───────────────────────────────────────────
-                    AmpexGroupedSection(
-                      margin: EdgeInsets.zero,
-                      dividerIndent: AppSpacing.rowH,
-                      children: [
-                        AmpexTextField(
-                          controller: _emailController,
-                          focusNode: _emailFocus,
-                          hint: 'E-post',
-                          keyboardType: TextInputType.emailAddress,
-                          textInputAction: TextInputAction.next,
-                          autocorrect: false,
-                          autofillHints: const [AutofillHints.email],
-                          onSubmitted: (_) => _passwordFocus.requestFocus(),
-                          validator: (v) {
-                            if (v == null || v.trim().isEmpty) return 'Skriv inn e-post';
-                            if (!v.contains('@')) return 'Ugyldig e-postadresse';
-                            return null;
-                          },
-                        ),
-                        AmpexTextField(
-                          controller: _passwordController,
-                          focusNode: _passwordFocus,
-                          hint: 'Passord',
-                          obscureText: _obscurePassword,
-                          textInputAction: TextInputAction.done,
-                          autofillHints: const [AutofillHints.password],
-                          onSubmitted: (_) => _submit(),
-                          suffix: IconButton(
-                            icon: Icon(
-                              _obscurePassword
-                                  ? CupertinoIcons.eye
-                                  : CupertinoIcons.eye_slash,
-                              size: 20,
-                              color: AppColors.labelSecondary,
-                            ),
-                            onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                    // ── Glass-kort med skjema ──────────────────────────────────
+                    AmpexGlass(
+                      child: Padding(
+                        padding: const EdgeInsets.all(AppSpacing.md),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              AmpexGroupedSection(
+                                margin: EdgeInsets.zero,
+                                dividerIndent: AppSpacing.rowH,
+                                children: [
+                                  AmpexTextField(
+                                    controller: _emailController,
+                                    focusNode: _emailFocus,
+                                    hint: 'E-post',
+                                    keyboardType: TextInputType.emailAddress,
+                                    textInputAction: TextInputAction.next,
+                                    autocorrect: false,
+                                    autofillHints: const [AutofillHints.email],
+                                    onSubmitted: (_) =>
+                                        _passwordFocus.requestFocus(),
+                                    validator: (v) {
+                                      if (v == null || v.trim().isEmpty) {
+                                        return 'Skriv inn e-post';
+                                      }
+                                      if (!v.contains('@')) {
+                                        return 'Ugyldig e-postadresse';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  AmpexTextField(
+                                    controller: _passwordController,
+                                    focusNode: _passwordFocus,
+                                    hint: 'Passord',
+                                    obscureText: _obscurePassword,
+                                    textInputAction: TextInputAction.done,
+                                    autofillHints: const [AutofillHints.password],
+                                    onSubmitted: (_) => _submit(),
+                                    suffix: IconButton(
+                                      icon: Icon(
+                                        _obscurePassword
+                                            ? CupertinoIcons.eye
+                                            : CupertinoIcons.eye_slash,
+                                        size: 20,
+                                        color: AppColors.labelSecondary,
+                                      ),
+                                      onPressed: () => setState(() =>
+                                          _obscurePassword = !_obscurePassword),
+                                    ),
+                                    validator: (v) {
+                                      if (v == null || v.isEmpty) {
+                                        return 'Skriv inn passord';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ],
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: TextButton(
+                                  onPressed: _loading ? null : _forgotPassword,
+                                  style: TextButton.styleFrom(
+                                    foregroundColor: AppColors.accent,
+                                    minimumSize:
+                                        const Size(0, AppSpacing.minTouch),
+                                    textStyle: AppTypography.callout,
+                                  ),
+                                  child: const Text('Glemt passord?'),
+                                ),
+                              ),
+                              if (_error != null) ...[
+                                const SizedBox(height: AppSpacing.xs),
+                                AmpexErrorBanner(message: _error!),
+                                const SizedBox(height: AppSpacing.sm),
+                              ] else
+                                const SizedBox(height: AppSpacing.sm),
+                              AmpexPrimaryButton(
+                                label: 'Logg inn',
+                                onPressed: _submit,
+                                isLoading: _loading,
+                              ),
+                            ],
                           ),
-                          validator: (v) {
-                            if (v == null || v.isEmpty) return 'Skriv inn passord';
-                            return null;
-                          },
                         ),
-                      ],
-                    ),
-
-                    // ── Glemt passord ────────────────────────────────────────
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: _loading ? null : _forgotPassword,
-                        style: TextButton.styleFrom(
-                          foregroundColor: AppColors.accent,
-                          minimumSize: const Size(0, AppSpacing.minTouch),
-                          textStyle: AppTypography.callout,
-                        ),
-                        child: const Text('Glemt passord?'),
                       ),
                     ),
-
-                    // ── Feilmelding ──────────────────────────────────────────
-                    if (_error != null) ...[
-                      const SizedBox(height: AppSpacing.sm),
-                      AmpexErrorBanner(message: _error!),
-                      const SizedBox(height: AppSpacing.sm),
-                    ] else
-                      const SizedBox(height: AppSpacing.md),
-
-                    // ── Primærknapp ──────────────────────────────────────────
-                    AmpexPrimaryButton(
-                      label: 'Logg inn',
-                      onPressed: _submit,
-                      isLoading: _loading,
-                    ),
-
-                    const SizedBox(height: AppSpacing.xl),
                   ],
                 ),
               ),
@@ -209,6 +226,30 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Merkevare-logo i gradient glass-chip.
+class _LogoMark extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 72,
+      height: 72,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        gradient: AppColors.accentGradient,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.accent.withValues(alpha: 0.35),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: const Icon(CupertinoIcons.bolt_fill, color: Colors.white, size: 36),
     );
   }
 }

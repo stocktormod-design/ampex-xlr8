@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
-import '../theme/app_radius.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_typography.dart';
+import 'ampex_glass.dart';
 
-/// iOS Settings / Spotify-list-seksjon.
-///
-/// Hvit avrundet boks på grå bakgrunn, med valgfri overskrift og fotnote.
-/// Brukes overalt der innhold er gruppert – aldri løse Cards med ramme.
+/// Gruppert seksjon på frostet glass (iOS Settings + glassmorfisme).
 class AmpexGroupedSection extends StatelessWidget {
   const AmpexGroupedSection({
     super.key,
@@ -16,7 +13,7 @@ class AmpexGroupedSection extends StatelessWidget {
     this.footer,
     required this.children,
     this.margin = const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
-    this.dividerIndent = 62,
+    this.dividerIndent = 64,
   });
 
   final String? header;
@@ -33,7 +30,12 @@ class AmpexGroupedSection extends StatelessWidget {
     for (var i = 0; i < children.length; i++) {
       rows.add(children[i]);
       if (i < children.length - 1) {
-        rows.add(Divider(height: 0.5, indent: dividerIndent));
+        rows.add(Divider(
+          height: 0.5,
+          thickness: 0.5,
+          indent: dividerIndent,
+          color: AppColors.separator,
+        ));
       }
     }
 
@@ -45,42 +47,26 @@ class AmpexGroupedSection extends StatelessWidget {
           if (header != null)
             Padding(
               padding: const EdgeInsets.only(
-                left: AppSpacing.sm,
-                bottom: AppSpacing.xs + 2,
+                left: AppSpacing.md,
+                bottom: AppSpacing.sm,
               ),
               child: Text(
                 header!,
                 style: AppTypography.caption.copyWith(
                   fontWeight: FontWeight.w600,
-                  letterSpacing: -0.2,
+                  letterSpacing: -0.1,
+                  color: AppColors.labelSecondary,
                 ),
               ),
             ),
-          DecoratedBox(
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              borderRadius: AppRadius.sectionBorder,
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0x0A000000),
-                  blurRadius: 12,
-                  offset: Offset(0, 2),
-                ),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: AppRadius.sectionBorder,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: rows,
-              ),
-            ),
+          AmpexGlass(
+            child: Column(mainAxisSize: MainAxisSize.min, children: rows),
           ),
           if (footer != null)
             Padding(
               padding: const EdgeInsets.only(
-                left: AppSpacing.sm,
-                top: AppSpacing.xs + 2,
+                left: AppSpacing.md,
+                top: AppSpacing.sm,
               ),
               child: Text(footer!, style: AppTypography.footnote),
             ),

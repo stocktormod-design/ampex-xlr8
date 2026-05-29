@@ -112,7 +112,7 @@ class _Chevron extends StatelessWidget {
   }
 }
 
-/// Myk ikonbakgrunn – farget ikon på lys flate (ikke solid firkant).
+/// Gradient ikon-chip – samme uttrykk som hurtigkortene.
 class _SoftIcon extends StatelessWidget {
   const _SoftIcon({required this.icon, required this.color});
 
@@ -126,14 +126,24 @@ class _SoftIcon extends StatelessWidget {
       height: 34,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.14),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            color.withValues(alpha: 0.9),
+            color.withValues(alpha: 0.65),
+          ],
+        ),
         borderRadius: BorderRadius.circular(9),
+        boxShadow: [
+          BoxShadow(
+            color: color.withValues(alpha: 0.28),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
-      child: Icon(
-        icon,
-        size: 19,
-        color: color,
-      ),
+      child: Icon(icon, size: 18, color: Colors.white),
     );
   }
 }

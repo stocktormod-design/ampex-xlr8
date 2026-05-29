@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -5,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 
-/// Tab bar – Cupertino-ikoner, ren typografi.
+/// Frostet glass-tab-bar. Innhold scroller under (extendBody).
 class AppTabShell extends StatelessWidget {
   const AppTabShell({super.key, required this.navigationShell});
 
@@ -23,8 +25,8 @@ class AppTabShell extends StatelessWidget {
       label: 'Ordre',
     ),
     _TabItem(
-      icon: CupertinoIcons.building_2_fill,
-      activeIcon: CupertinoIcons.building_2_fill,
+      icon: CupertinoIcons.square_stack_3d_up,
+      activeIcon: CupertinoIcons.square_stack_3d_up_fill,
       label: 'Prosjekter',
     ),
   ];
@@ -32,9 +34,10 @@ class AppTabShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Colors.transparent,
+      extendBody: true,
       body: navigationShell,
-      bottomNavigationBar: _AmpexTabBar(
+      bottomNavigationBar: _GlassTabBar(
         currentIndex: navigationShell.currentIndex,
         onTap: (i) => navigationShell.goBranch(
           i,
@@ -46,8 +49,8 @@ class AppTabShell extends StatelessWidget {
   }
 }
 
-class _AmpexTabBar extends StatelessWidget {
-  const _AmpexTabBar({
+class _GlassTabBar extends StatelessWidget {
+  const _GlassTabBar({
     required this.currentIndex,
     required this.onTap,
     required this.tabs,
@@ -61,32 +64,32 @@ class _AmpexTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final bottomPadding = MediaQuery.paddingOf(context).bottom;
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.surface.withValues(alpha: 0.98),
-        border: Border(
-          top: BorderSide(
-            color: AppColors.separator.withValues(alpha: 0.8),
-            width: 0.5,
+    return ClipRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 28, sigmaY: 28),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: AppColors.glassBar,
+            border: const Border(
+              top: BorderSide(color: AppColors.separator, width: 0.5),
+            ),
           ),
-        ),
-      ),
-      child: SizedBox(
-        height: 49 + bottomPadding,
-        child: Padding(
-          padding: EdgeInsets.only(bottom: bottomPadding),
-          child: Row(
-            children: List.generate(tabs.length, (i) {
-              final tab = tabs[i];
-              final active = i == currentIndex;
-              return Expanded(
-                child: _TabTile(
-                  item: tab,
-                  active: active,
-                  onTap: () => onTap(i),
-                ),
-              );
-            }),
+          child: SizedBox(
+            height: 52 + bottomPadding,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: bottomPadding),
+              child: Row(
+                children: List.generate(tabs.length, (i) {
+                  return Expanded(
+                    child: _TabTile(
+                      item: tabs[i],
+                      active: i == currentIndex,
+                      onTap: () => onTap(i),
+                    ),
+                  );
+                }),
+              ),
+            ),
           ),
         ),
       ),
@@ -115,12 +118,17 @@ class _TabTile extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            active ? item.activeIcon : item.icon,
-            size: 23,
-            color: color,
+          AnimatedScale(
+            scale: active ? 1.0 : 0.92,
+            duration: const Duration(milliseconds: 180),
+            curve: Curves.easeOut,
+            child: Icon(
+              active ? item.activeIcon : item.icon,
+              size: 23,
+              color: color,
+            ),
           ),
-          const SizedBox(height: 2),
+          const SizedBox(height: 3),
           Text(
             item.label,
             style: AppTypography.tabLabel.copyWith(

@@ -25,40 +25,60 @@ class AmpexPrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: AppSpacing.minTouch + 8,
-      child: FilledButton(
-        onPressed: (isLoading || onPressed == null) ? null : onPressed,
-        style: FilledButton.styleFrom(
-          backgroundColor: AppColors.accent,
-          disabledBackgroundColor: AppColors.accent.withValues(alpha: 0.45),
-          foregroundColor: Colors.white,
-          shape: const RoundedRectangleBorder(borderRadius: AppRadius.buttonBorder),
-          elevation: 0,
-        ),
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 180),
-          child: isLoading
-              ? const SizedBox(
-                  key: ValueKey('loading'),
-                  height: 20,
-                  width: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.5,
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                  ),
-                )
-              : Row(
-                  key: const ValueKey('label'),
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (icon != null) ...[
-                      Icon(icon, size: 18),
-                      const SizedBox(width: AppSpacing.sm),
-                    ],
-                    Text(label, style: AppTypography.headline.copyWith(color: Colors.white)),
-                  ],
+    final disabled = isLoading || onPressed == null;
+
+    return Opacity(
+      opacity: disabled && !isLoading ? 0.5 : 1,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: disabled ? null : onPressed,
+          borderRadius: AppRadius.buttonBorder,
+          child: Ink(
+            height: AppSpacing.minTouch + 8,
+            decoration: BoxDecoration(
+              gradient: AppColors.accentGradient,
+              borderRadius: AppRadius.buttonBorder,
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.accent.withValues(alpha: 0.32),
+                  blurRadius: 16,
+                  offset: const Offset(0, 6),
                 ),
+              ],
+            ),
+            child: Center(
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 180),
+                child: isLoading
+                    ? const SizedBox(
+                        key: ValueKey('loading'),
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.5,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      )
+                    : Row(
+                        key: const ValueKey('label'),
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (icon != null) ...[
+                            Icon(icon, size: 18, color: Colors.white),
+                            const SizedBox(width: AppSpacing.sm),
+                          ],
+                          Text(
+                            label,
+                            style: AppTypography.headline
+                                .copyWith(color: Colors.white),
+                          ),
+                        ],
+                      ),
+              ),
+            ),
+          ),
         ),
       ),
     );

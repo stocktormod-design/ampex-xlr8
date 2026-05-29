@@ -178,7 +178,8 @@ class _HomeContent extends ConsumerWidget {
             ],
           ),
         ),
-        const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xxl)),
+        // Plass for den flytende glass-tab-baren.
+        const SliverToBoxAdapter(child: SizedBox(height: 96)),
       ],
     );
   }
