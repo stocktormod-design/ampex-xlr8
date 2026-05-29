@@ -83,20 +83,28 @@ class _HomeContent extends ConsumerWidget {
 
     return AmpexScaffold(
       title: '${_greeting()}, $_firstName',
-      subtitle: Row(
-        children: [
-          Flexible(
-            child: Text(
-              company.name,
-              style: AppTypography.callout,
-              overflow: TextOverflow.ellipsis,
+      slivers: [
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.screenH, AppSpacing.sm,
+              AppSpacing.screenH, AppSpacing.lg,
+            ),
+            child: Row(
+              children: [
+                Flexible(
+                  child: Text(
+                    company.name,
+                    style: AppTypography.callout.copyWith(fontSize: 16),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.sm),
+                _RoleBadge(label: roleLabelNorwegian(profile.role)),
+              ],
             ),
           ),
-          const SizedBox(width: AppSpacing.sm),
-          _RoleBadge(label: roleLabelNorwegian(profile.role)),
-        ],
-      ),
-      slivers: [
+        ),
         SliverToBoxAdapter(
           child: AmpexGroupedSection(
             header: 'Arbeid',

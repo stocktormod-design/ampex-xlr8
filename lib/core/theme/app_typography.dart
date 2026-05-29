@@ -4,12 +4,21 @@ import 'app_colors.dart';
 
 /// Ampex design tokens – typografi.
 ///
-/// Scale inspirert av iOS HIG. Ingen hardkodet SF Pro –
-/// plattform-standardfont brukes (SF på iOS, Roboto på Android,
-/// system-sans på web). Samme scale på alle plattformer.
+/// Scale inspirert av iOS HIG.
 abstract final class AppTypography {
+  static const String _fontFamily = '.SF Pro Text';
+  static const List<String> _fontFallback = [
+    '-apple-system',
+    'BlinkMacSystemFont',
+    'system-ui',
+    'Roboto',
+    'sans-serif',
+  ];
+
   /// 34 · Bold · Large Title (skjermoverskrift)
   static const largeTitle = TextStyle(
+    fontFamily: _fontFamily,
+    fontFamilyFallback: _fontFallback,
     fontSize: 34,
     fontWeight: FontWeight.w700,
     letterSpacing: 0.37,
@@ -19,6 +28,8 @@ abstract final class AppTypography {
 
   /// 28 · SemiBold · Title 1
   static const title1 = TextStyle(
+    fontFamily: _fontFamily,
+    fontFamilyFallback: _fontFallback,
     fontSize: 28,
     fontWeight: FontWeight.w600,
     letterSpacing: 0.36,
@@ -28,6 +39,8 @@ abstract final class AppTypography {
 
   /// 22 · SemiBold · Title 2
   static const title2 = TextStyle(
+    fontFamily: _fontFamily,
+    fontFamilyFallback: _fontFallback,
     fontSize: 22,
     fontWeight: FontWeight.w600,
     letterSpacing: 0.35,
@@ -37,6 +50,8 @@ abstract final class AppTypography {
 
   /// 17 · SemiBold · Navigation / list title
   static const headline = TextStyle(
+    fontFamily: _fontFamily,
+    fontFamilyFallback: _fontFallback,
     fontSize: 17,
     fontWeight: FontWeight.w600,
     letterSpacing: -0.41,
@@ -46,6 +61,8 @@ abstract final class AppTypography {
 
   /// 17 · Regular · Body
   static const body = TextStyle(
+    fontFamily: _fontFamily,
+    fontFamilyFallback: _fontFallback,
     fontSize: 17,
     fontWeight: FontWeight.w400,
     letterSpacing: -0.41,
@@ -55,6 +72,8 @@ abstract final class AppTypography {
 
   /// 15 · Regular · Callout / subtitle
   static const callout = TextStyle(
+    fontFamily: _fontFamily,
+    fontFamilyFallback: _fontFallback,
     fontSize: 15,
     fontWeight: FontWeight.w400,
     letterSpacing: -0.24,
@@ -64,6 +83,8 @@ abstract final class AppTypography {
 
   /// 13 · Regular · Footnote / caption
   static const footnote = TextStyle(
+    fontFamily: _fontFamily,
+    fontFamilyFallback: _fontFallback,
     fontSize: 13,
     fontWeight: FontWeight.w400,
     letterSpacing: -0.08,
@@ -73,6 +94,8 @@ abstract final class AppTypography {
 
   /// 13 · Medium · Section header / caption2
   static const caption = TextStyle(
+    fontFamily: _fontFamily,
+    fontFamilyFallback: _fontFallback,
     fontSize: 13,
     fontWeight: FontWeight.w500,
     letterSpacing: 0.06,
@@ -82,6 +105,8 @@ abstract final class AppTypography {
 
   /// 11 · SemiBold · Tab bar label
   static const tabLabel = TextStyle(
+    fontFamily: _fontFamily,
+    fontFamilyFallback: _fontFallback,
     fontSize: 11,
     fontWeight: FontWeight.w500,
     letterSpacing: 0.07,

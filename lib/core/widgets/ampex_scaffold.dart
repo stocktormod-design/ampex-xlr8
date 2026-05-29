@@ -1,108 +1,64 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
-import '../theme/app_spacing.dart';
-import '../theme/app_typography.dart';
 import 'offline_banner.dart';
 
 /// Sideskall for alle listeskjermer.
 ///
-/// – Venstrejustert large title (iOS HIG), aldri sentrert.
-/// – Innhold sentreres med maks bredde på brede skjermer (web/nettbrett),
-///   full bredde på telefon → samme produkt overalt.
-/// – Bouncing scroll + offline-banner.
+/// – Ekte iOS CupertinoSliverNavigationBar for den riktige
+///   large title / blur / collapse-effekten.
+/// – Maks bredde på 480px på web/desktop slik at den føles som en mobilapp.
 class AmpexScaffold extends StatelessWidget {
   const AmpexScaffold({
     super.key,
     required this.title,
     required this.slivers,
-    this.subtitle,
-    this.actions,
-    this.maxContentWidth = 640,
+    this.trailing,
+    this.maxContentWidth = 480,
     this.backgroundColor = AppColors.background,
   });
 
-  /// Stor venstrejustert tittel. Kan være en hilsen (hjem) eller skjermnavn.
+  /// Stor venstrejustert tittel (iOS style).
   final String title;
 
-  /// Valgfri rad rett under tittelen (firma, status, rolle …).
-  final Widget? subtitle;
-
+  /// Innhold.
   final List<Widget> slivers;
-  final List<Widget>? actions;
+  
+  /// Ikon/knapp oppe til høyre.
+  final Widget? trailing;
+  
   final double maxContentWidth;
   final Color backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: AppColors.background,
       body: OfflineBanner(
-        child: SafeArea(
-          bottom: false,
-          child: Center(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: maxContentWidth),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: maxContentWidth),
+            child: ColoredBox(
+              color: backgroundColor,
               child: CustomScrollView(
                 physics: const BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics(),
                 ),
                 slivers: [
-                  SliverToBoxAdapter(child: _Header(
-                    title: title,
-                    subtitle: subtitle,
-                    actions: actions,
-                  )),
+                  CupertinoSliverNavigationBar(
+                    largeTitle: Text(title),
+                    trailing: trailing,
+                    backgroundColor: backgroundColor.withValues(alpha: 0.92),
+                    border: null,
+                    stretch: true,
+                  ),
                   ...slivers,
                 ],
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _Header extends StatelessWidget {
-  const _Header({required this.title, this.subtitle, this.actions});
-
-  final String title;
-  final Widget? subtitle;
-  final List<Widget>? actions;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        AppSpacing.screenH,
-        AppSpacing.md,
-        AppSpacing.screenH,
-        AppSpacing.lg,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Text(
-                  title,
-                  style: AppTypography.largeTitle,
-                ),
-              ),
-              if (actions != null) ...[
-                const SizedBox(width: AppSpacing.sm),
-                ...actions!,
-              ],
-            ],
-          ),
-          if (subtitle != null) ...[
-            const SizedBox(height: AppSpacing.sm),
-            subtitle!,
-          ],
-        ],
       ),
     );
   }
