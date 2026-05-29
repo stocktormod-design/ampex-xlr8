@@ -37,15 +37,8 @@ class AmpexPrimaryButton extends StatelessWidget {
           child: Ink(
             height: AppSpacing.minTouch + 8,
             decoration: BoxDecoration(
-              gradient: AppColors.accentGradient,
+              color: AppColors.accent,
               borderRadius: AppRadius.buttonBorder,
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.accent.withValues(alpha: 0.32),
-                  blurRadius: 16,
-                  offset: const Offset(0, 6),
-                ),
-              ],
             ),
             child: Center(
               child: AnimatedSwitcher(

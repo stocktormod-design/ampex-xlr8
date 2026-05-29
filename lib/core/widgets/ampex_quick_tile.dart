@@ -22,6 +22,7 @@ class AmpexQuickTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final iconColor = color;
     return AmpexGlass(
       child: Material(
         color: Colors.transparent,
@@ -39,28 +40,14 @@ class AmpexQuickTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    width: 38,
-                    height: 38,
+                    width: 34,
+                    height: 34,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          color.withValues(alpha: 0.9),
-                          color.withValues(alpha: 0.65),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(11),
-                      boxShadow: [
-                        BoxShadow(
-                          color: color.withValues(alpha: 0.3),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
+                      color: AppColors.surfaceHighlight,
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Icon(icon, size: 20, color: Colors.white),
+                    child: Icon(icon, size: 18, color: iconColor),
                   ),
                   Text(label, style: AppTypography.headline),
                 ],

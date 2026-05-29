@@ -26,8 +26,8 @@ class AppTabShell extends StatelessWidget {
       label: 'Ordre',
     ),
     _TabItem(
-      icon: CupertinoIcons.square_stack_3d_up,
-      activeIcon: CupertinoIcons.square_stack_3d_up_fill,
+      icon: CupertinoIcons.layers_alt,
+      activeIcon: CupertinoIcons.layers_alt_fill,
       label: 'Prosjekter',
     ),
   ];
@@ -67,7 +67,7 @@ class _GlassTabBar extends StatelessWidget {
 
     return ClipRect(
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 28, sigmaY: 28),
+        filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: AppColors.glassBar,
@@ -120,12 +120,12 @@ class _TabTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AnimatedScale(
-            scale: active ? 1.0 : 0.92,
-            duration: const Duration(milliseconds: 180),
+            scale: active ? 1.0 : 0.96,
+            duration: const Duration(milliseconds: 140),
             curve: Curves.easeOut,
             child: Icon(
               active ? item.activeIcon : item.icon,
-              size: 23,
+              size: 22,
               color: color,
             ),
           ),

@@ -126,24 +126,10 @@ class _SoftIcon extends StatelessWidget {
       height: 34,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            color.withValues(alpha: 0.9),
-            color.withValues(alpha: 0.65),
-          ],
-        ),
+        color: AppColors.surfaceHighlight,
         borderRadius: BorderRadius.circular(9),
-        boxShadow: [
-          BoxShadow(
-            color: color.withValues(alpha: 0.28),
-            blurRadius: 8,
-            offset: const Offset(0, 3),
-          ),
-        ],
       ),
-      child: Icon(icon, size: 18, color: Colors.white),
+      child: Icon(icon, size: 18, color: color),
     );
   }
 }

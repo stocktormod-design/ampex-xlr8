@@ -117,7 +117,7 @@ class _HomeContent extends ConsumerWidget {
                   child: AmpexQuickTile(
                     icon: CupertinoIcons.doc_text,
                     label: 'Ordre',
-                    color: AppColors.accent,
+                    color: AppColors.label,
                     onTap: () => context.go(Routes.orders),
                   ),
                 ),
@@ -126,7 +126,7 @@ class _HomeContent extends ConsumerWidget {
                   child: AmpexQuickTile(
                     icon: CupertinoIcons.building_2_fill,
                     label: 'Prosjekter',
-                    color: const Color(0xFF2D7A4F),
+                    color: AppColors.label,
                     onTap: () => context.go(Routes.projects),
                   ),
                 ),
@@ -141,14 +141,14 @@ class _HomeContent extends ConsumerWidget {
             children: [
               AmpexListRow(
                 leading: CupertinoIcons.doc_text,
-                leadingColor: AppColors.accent,
+                leadingColor: AppColors.labelSecondary,
                 title: 'Alle ordre',
                 subtitle: 'Oppfølging og dokumentasjon',
                 onTap: () => context.go(Routes.orders),
               ),
               AmpexListRow(
                 leading: CupertinoIcons.building_2_fill,
-                leadingColor: const Color(0xFF2D7A4F),
+                leadingColor: AppColors.labelSecondary,
                 title: 'Alle prosjekter',
                 subtitle: 'Tegninger, rom og fremdrift',
                 onTap: () => context.go(Routes.projects),
@@ -203,13 +203,13 @@ class _RoleBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
       decoration: BoxDecoration(
-        color: AppColors.accentSoft,
+        color: AppColors.surfaceHighlight,
         borderRadius: BorderRadius.circular(AppSpacing.xs + 2),
       ),
       child: Text(
         label,
         style: AppTypography.caption.copyWith(
-          color: AppColors.accent,
+          color: AppColors.labelSecondary,
           fontWeight: FontWeight.w600,
         ),
       ),
