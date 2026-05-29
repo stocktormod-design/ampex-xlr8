@@ -55,7 +55,9 @@ class _EnvMissingScreen extends StatelessWidget {
               const SizedBox(height: 16),
               const Text(
                 'Mangler Supabase-konfigurasjon.\n\n'
-                'Kopier .env.example til .env og fyll inn SUPABASE_URL og SUPABASE_ANON_KEY.',
+                '1. cp .env.example .env\n'
+                '2. Fyll inn SUPABASE_URL og SUPABASE_ANON_KEY\n'
+                '3. Stopp appen og kjør flutter run på nytt (ikke bare hot reload)',
               ),
             ],
           ),

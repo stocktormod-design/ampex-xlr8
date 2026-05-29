@@ -7,7 +7,8 @@ import 'core/config/env.dart';
 Future<void> bootstrap(Future<void> Function() runApp) async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await dotenv.load(fileName: '.env', isOptional: true);
+  // .env må ligge i prosjektrot og være listet under flutter/assets i pubspec.yaml.
+  await dotenv.load(fileName: '.env');
 
   if (Env.isConfigured) {
     await Supabase.initialize(
