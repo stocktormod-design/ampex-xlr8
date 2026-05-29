@@ -20,7 +20,8 @@ class OrdersPlaceholderScreen extends StatelessWidget {
     return AmpexScaffold(
       title: 'Ordre',
       slivers: [
-        SliverFillRemaining(
+        const SliverFillRemaining(
+          hasScrollBody: false,
           child: AmpexEmptyState(
             icon: CupertinoIcons.doc_text,
             title: 'Ingen ordre ennå',

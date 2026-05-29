@@ -24,10 +24,11 @@ class HomeScreen extends ConsumerWidget {
     final sessionAsync = ref.watch(sessionContextProvider);
 
     return sessionAsync.when(
-      loading: () => AmpexScaffold(
+      loading: () => const AmpexScaffold(
         title: 'Hjem',
-        slivers: const [
+        slivers: [
           SliverFillRemaining(
+            hasScrollBody: false,
             child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
           ),
         ],
@@ -36,6 +37,7 @@ class HomeScreen extends ConsumerWidget {
         title: 'Hjem',
         slivers: [
           SliverFillRemaining(
+            hasScrollBody: false,
             child: _SessionError(
               message: e is ProfileException
                   ? e.message
@@ -47,10 +49,11 @@ class HomeScreen extends ConsumerWidget {
       ),
       data: (session) {
         if (session == null) {
-          return AmpexScaffold(
+          return const AmpexScaffold(
             title: 'Hjem',
-            slivers: const [
+            slivers: [
               SliverFillRemaining(
+                hasScrollBody: false,
                 child: Center(child: Text('Du er ikke innlogget.')),
               ),
             ],
@@ -67,56 +70,47 @@ class _HomeContent extends ConsumerWidget {
 
   final SessionContext session;
 
+  String get _firstName {
+    final name = session.displayName.trim();
+    if (name.isEmpty || name == 'Bruker') return 'der';
+    return name.split(' ').first;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profile = session.profile;
     final company = session.company;
 
     return AmpexScaffold(
-      title: 'Hjem',
-      slivers: [
-        // ── Velkomst ──────────────────────────────────────────────────────────
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.screenH, AppSpacing.sm,
-              AppSpacing.screenH, AppSpacing.md,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'God dag, ${session.displayName}',
-                  style: AppTypography.title2,
-                ),
-                const SizedBox(height: AppSpacing.xs),
-                Row(
-                  children: [
-                    Text(company.name, style: AppTypography.callout),
-                    const SizedBox(width: AppSpacing.sm),
-                    _RoleBadge(label: roleLabelNorwegian(profile.role)),
-                  ],
-                ),
-              ],
+      title: '${_greeting()}, $_firstName',
+      subtitle: Row(
+        children: [
+          Flexible(
+            child: Text(
+              company.name,
+              style: AppTypography.callout,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
-        ),
-
-        // ── Arbeid ────────────────────────────────────────────────────────────
+          const SizedBox(width: AppSpacing.sm),
+          _RoleBadge(label: roleLabelNorwegian(profile.role)),
+        ],
+      ),
+      slivers: [
         SliverToBoxAdapter(
           child: AmpexGroupedSection(
             header: 'Arbeid',
             children: [
               AmpexListRow(
-                leading: Icons.description_rounded,
+                leading: CupertinoIcons.doc_text_fill,
                 leadingColor: AppColors.accent,
                 title: 'Ordre',
                 subtitle: 'Oppfølging og dokumentasjon',
                 onTap: () => context.go(Routes.orders),
               ),
               AmpexListRow(
-                leading: Icons.business_rounded,
-                leadingColor: const Color(0xFF1E8A4C),
+                leading: CupertinoIcons.building_2_fill,
+                leadingColor: AppColors.success,
                 title: 'Prosjekter',
                 subtitle: 'Tegninger, rom og fremdrift',
                 onTap: () => context.go(Routes.projects),
@@ -124,17 +118,14 @@ class _HomeContent extends ConsumerWidget {
             ],
           ),
         ),
-
         const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sectionGap)),
-
-        // ── Konto ─────────────────────────────────────────────────────────────
         SliverToBoxAdapter(
           child: AmpexGroupedSection(
             header: 'Konto',
             footer: 'Deler innlogging med Ampex web.',
             children: [
               AmpexListRow(
-                leading: Icons.person_rounded,
+                leading: CupertinoIcons.person_fill,
                 leadingColor: AppColors.labelSecondary,
                 title: profile.fullName.isNotEmpty ? profile.fullName : 'Profil',
                 value: roleLabelNorwegian(profile.role),
@@ -144,17 +135,22 @@ class _HomeContent extends ConsumerWidget {
                 title: 'Logg ut',
                 destructive: true,
                 showChevron: false,
-                onTap: () async {
-                  await ref.read(authRepositoryProvider).signOut();
-                },
+                onTap: () => ref.read(authRepositoryProvider).signOut(),
               ),
             ],
           ),
         ),
-
         const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xxl)),
       ],
     );
+  }
+
+  String _greeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 6) return 'God natt';
+    if (hour < 11) return 'God morgen';
+    if (hour < 18) return 'God dag';
+    return 'God kveld';
   }
 }
 
@@ -168,10 +164,7 @@ class _RoleBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.sm + 2,
-        vertical: 3,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
       decoration: BoxDecoration(
         color: AppColors.accentSoft,
         borderRadius: BorderRadius.circular(AppSpacing.xs + 2),
@@ -205,13 +198,9 @@ class _SessionError extends StatelessWidget {
                 size: 48, color: AppColors.labelTertiary),
             const SizedBox(height: AppSpacing.md),
             Text(message,
-                textAlign: TextAlign.center,
-                style: AppTypography.callout),
+                textAlign: TextAlign.center, style: AppTypography.callout),
             const SizedBox(height: AppSpacing.lg),
-            FilledButton(
-              onPressed: onRetry,
-              child: const Text('Prøv igjen'),
-            ),
+            FilledButton(onPressed: onRetry, child: const Text('Prøv igjen')),
           ],
         ),
       ),

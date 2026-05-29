@@ -20,7 +20,8 @@ class ProjectsPlaceholderScreen extends StatelessWidget {
     return AmpexScaffold(
       title: 'Prosjekter',
       slivers: [
-        SliverFillRemaining(
+        const SliverFillRemaining(
+          hasScrollBody: false,
           child: AmpexEmptyState(
             icon: CupertinoIcons.building_2_fill,
             title: 'Ingen prosjekter ennå',

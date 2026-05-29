@@ -16,7 +16,7 @@ class AmpexGroupedSection extends StatelessWidget {
     this.footer,
     required this.children,
     this.margin = const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
-    this.dividerIndent = AppSpacing.screenH + 22,
+    this.dividerIndent = 62,
   });
 
   final String? header;
