@@ -1,8 +1,13 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final connectivityProvider = StreamProvider<List<ConnectivityResult>>((ref) {
+  if (kIsWeb) {
+    // Web: anta online (unngår plugin-problemer i dev).
+    return Stream.value([ConnectivityResult.wifi]);
+  }
   return Connectivity().onConnectivityChanged;
 });
 

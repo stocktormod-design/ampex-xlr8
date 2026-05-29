@@ -33,6 +33,18 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <style>
+    body { margin: 0; background: #f5f6f8; font-family: system-ui, sans-serif; }
+    #loading {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; min-height: 100vh; color: #1a1a2e;
+    }
+    #loading p { margin-top: 12px; color: #5c5c6d; font-size: 14px; }
+  </style>
+  <div id="loading">
+    <strong>Ampex</strong>
+    <p>Laster appen … kan ta opptil 30 sekunder første gang.</p>
+  </div>
   <!--
     You can customize the "flutter_bootstrap.js" script.
     This is useful to provide a custom configuration to the Flutter loader
