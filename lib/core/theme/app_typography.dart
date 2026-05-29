@@ -6,8 +6,10 @@ import 'app_colors.dart';
 ///
 /// Scale inspirert av iOS HIG.
 abstract final class AppTypography {
-  static const String _fontFamily = '.SF Pro Text';
+  /// Inter lastes på web via index.html; SF/system på native.
+  static const String _fontFamily = 'Inter';
   static const List<String> _fontFallback = [
+    '.SF Pro Text',
     '-apple-system',
     'BlinkMacSystemFont',
     'system-ui',

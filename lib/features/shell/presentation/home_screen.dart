@@ -14,6 +14,7 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/ampex_grouped_section.dart';
 import '../../../core/widgets/ampex_list_row.dart';
+import '../../../core/widgets/ampex_quick_tile.dart';
 import '../../../core/widgets/ampex_scaffold.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -87,12 +88,14 @@ class _HomeContent extends ConsumerWidget {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(
-              AppSpacing.screenH, AppSpacing.sm,
-              AppSpacing.screenH, AppSpacing.lg,
+              AppSpacing.screenH,
+              AppSpacing.xs,
+              AppSpacing.screenH,
+              AppSpacing.md,
             ),
             child: Row(
               children: [
-                Flexible(
+                Expanded(
                   child: Text(
                     company.name,
                     style: AppTypography.callout.copyWith(fontSize: 16),
@@ -106,20 +109,47 @@ class _HomeContent extends ConsumerWidget {
           ),
         ),
         SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
+            child: Row(
+              children: [
+                Expanded(
+                  child: AmpexQuickTile(
+                    icon: CupertinoIcons.doc_text_fill,
+                    label: 'Ordre',
+                    color: AppColors.accent,
+                    onTap: () => context.go(Routes.orders),
+                  ),
+                ),
+                const SizedBox(width: AppSpacing.md),
+                Expanded(
+                  child: AmpexQuickTile(
+                    icon: CupertinoIcons.building_2_fill,
+                    label: 'Prosjekter',
+                    color: AppColors.success,
+                    onTap: () => context.go(Routes.projects),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sectionGap)),
+        SliverToBoxAdapter(
           child: AmpexGroupedSection(
-            header: 'Arbeid',
+            header: 'Mer',
             children: [
               AmpexListRow(
                 leading: CupertinoIcons.doc_text_fill,
                 leadingColor: AppColors.accent,
-                title: 'Ordre',
+                title: 'Alle ordre',
                 subtitle: 'Oppfølging og dokumentasjon',
                 onTap: () => context.go(Routes.orders),
               ),
               AmpexListRow(
                 leading: CupertinoIcons.building_2_fill,
                 leadingColor: AppColors.success,
-                title: 'Prosjekter',
+                title: 'Alle prosjekter',
                 subtitle: 'Tegninger, rom og fremdrift',
                 onTap: () => context.go(Routes.projects),
               ),
@@ -161,8 +191,6 @@ class _HomeContent extends ConsumerWidget {
     return 'God kveld';
   }
 }
-
-// ── Hjelpere ───────────────────────────────────────────────────────────────────
 
 class _RoleBadge extends StatelessWidget {
   const _RoleBadge({required this.label});

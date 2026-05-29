@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
+import '../theme/app_typography.dart';
 import 'offline_banner.dart';
 
 /// Sideskall for alle listeskjermer.
@@ -15,7 +16,7 @@ class AmpexScaffold extends StatelessWidget {
     required this.title,
     required this.slivers,
     this.trailing,
-    this.maxContentWidth = 480,
+    this.maxContentWidth = 390,
     this.backgroundColor = AppColors.background,
   });
 
@@ -47,7 +48,7 @@ class AmpexScaffold extends StatelessWidget {
                 ),
                 slivers: [
                   CupertinoSliverNavigationBar(
-                    largeTitle: Text(title),
+                    largeTitle: Text(title, style: AppTypography.largeTitle),
                     trailing: trailing,
                     backgroundColor: backgroundColor.withValues(alpha: 0.92),
                     border: null,

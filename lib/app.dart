@@ -8,6 +8,7 @@ import 'core/routing/app_router.dart';
 import 'core/theme/app_colors.dart';
 import 'core/theme/app_typography.dart';
 import 'core/theme/app_theme.dart';
+import 'core/widgets/ampex_web_frame.dart';
 
 class AmpexApp extends ConsumerWidget {
   const AmpexApp({super.key});
@@ -35,6 +36,8 @@ class AmpexApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      builder: (context, child) =>
+          AmpexWebFrame(child: child ?? const SizedBox.shrink()),
       routerConfig: router,
     );
   }

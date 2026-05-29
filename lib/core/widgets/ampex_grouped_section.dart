@@ -49,9 +49,10 @@ class AmpexGroupedSection extends StatelessWidget {
                 bottom: AppSpacing.xs + 2,
               ),
               child: Text(
-                header!.toUpperCase(),
+                header!,
                 style: AppTypography.caption.copyWith(
-                  letterSpacing: 0.4,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: -0.2,
                 ),
               ),
             ),
@@ -59,6 +60,13 @@ class AmpexGroupedSection extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.surface,
               borderRadius: AppRadius.sectionBorder,
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x0A000000),
+                  blurRadius: 12,
+                  offset: Offset(0, 2),
+                ),
+              ],
             ),
             child: ClipRRect(
               borderRadius: AppRadius.sectionBorder,
