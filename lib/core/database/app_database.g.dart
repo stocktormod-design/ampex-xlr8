@@ -1240,12 +1240,1121 @@ class CachedFilesCompanion extends UpdateCompanion<CachedFile> {
   }
 }
 
+class $LocalOrdersTable extends LocalOrders
+    with TableInfo<$LocalOrdersTable, LocalOrder> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LocalOrdersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+    'title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+    'type',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _customerNameMeta = const VerificationMeta(
+    'customerName',
+  );
+  @override
+  late final GeneratedColumn<String> customerName = GeneratedColumn<String>(
+    'customer_name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _customerPhoneMeta = const VerificationMeta(
+    'customerPhone',
+  );
+  @override
+  late final GeneratedColumn<String> customerPhone = GeneratedColumn<String>(
+    'customer_phone',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _customerAddressMeta = const VerificationMeta(
+    'customerAddress',
+  );
+  @override
+  late final GeneratedColumn<String> customerAddress = GeneratedColumn<String>(
+    'customer_address',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _detailJsonMeta = const VerificationMeta(
+    'detailJson',
+  );
+  @override
+  late final GeneratedColumn<String> detailJson = GeneratedColumn<String>(
+    'detail_json',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    title,
+    status,
+    type,
+    customerName,
+    customerPhone,
+    customerAddress,
+    description,
+    updatedAt,
+    detailJson,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'local_orders';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<LocalOrder> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_statusMeta);
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+        _typeMeta,
+        type.isAcceptableOrUnknown(data['type']!, _typeMeta),
+      );
+    }
+    if (data.containsKey('customer_name')) {
+      context.handle(
+        _customerNameMeta,
+        customerName.isAcceptableOrUnknown(
+          data['customer_name']!,
+          _customerNameMeta,
+        ),
+      );
+    }
+    if (data.containsKey('customer_phone')) {
+      context.handle(
+        _customerPhoneMeta,
+        customerPhone.isAcceptableOrUnknown(
+          data['customer_phone']!,
+          _customerPhoneMeta,
+        ),
+      );
+    }
+    if (data.containsKey('customer_address')) {
+      context.handle(
+        _customerAddressMeta,
+        customerAddress.isAcceptableOrUnknown(
+          data['customer_address']!,
+          _customerAddressMeta,
+        ),
+      );
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('detail_json')) {
+      context.handle(
+        _detailJsonMeta,
+        detailJson.isAcceptableOrUnknown(data['detail_json']!, _detailJsonMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  LocalOrder map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LocalOrder(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      type: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}type'],
+      ),
+      customerName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}customer_name'],
+      ),
+      customerPhone: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}customer_phone'],
+      ),
+      customerAddress: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}customer_address'],
+      ),
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      ),
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+      detailJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}detail_json'],
+      ),
+    );
+  }
+
+  @override
+  $LocalOrdersTable createAlias(String alias) {
+    return $LocalOrdersTable(attachedDatabase, alias);
+  }
+}
+
+class LocalOrder extends DataClass implements Insertable<LocalOrder> {
+  final String id;
+  final String title;
+  final String status;
+  final String? type;
+  final String? customerName;
+  final String? customerPhone;
+  final String? customerAddress;
+  final String? description;
+  final DateTime updatedAt;
+  final String? detailJson;
+  const LocalOrder({
+    required this.id,
+    required this.title,
+    required this.status,
+    this.type,
+    this.customerName,
+    this.customerPhone,
+    this.customerAddress,
+    this.description,
+    required this.updatedAt,
+    this.detailJson,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['title'] = Variable<String>(title);
+    map['status'] = Variable<String>(status);
+    if (!nullToAbsent || type != null) {
+      map['type'] = Variable<String>(type);
+    }
+    if (!nullToAbsent || customerName != null) {
+      map['customer_name'] = Variable<String>(customerName);
+    }
+    if (!nullToAbsent || customerPhone != null) {
+      map['customer_phone'] = Variable<String>(customerPhone);
+    }
+    if (!nullToAbsent || customerAddress != null) {
+      map['customer_address'] = Variable<String>(customerAddress);
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    if (!nullToAbsent || detailJson != null) {
+      map['detail_json'] = Variable<String>(detailJson);
+    }
+    return map;
+  }
+
+  LocalOrdersCompanion toCompanion(bool nullToAbsent) {
+    return LocalOrdersCompanion(
+      id: Value(id),
+      title: Value(title),
+      status: Value(status),
+      type: type == null && nullToAbsent ? const Value.absent() : Value(type),
+      customerName: customerName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerName),
+      customerPhone: customerPhone == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerPhone),
+      customerAddress: customerAddress == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerAddress),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      updatedAt: Value(updatedAt),
+      detailJson: detailJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(detailJson),
+    );
+  }
+
+  factory LocalOrder.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LocalOrder(
+      id: serializer.fromJson<String>(json['id']),
+      title: serializer.fromJson<String>(json['title']),
+      status: serializer.fromJson<String>(json['status']),
+      type: serializer.fromJson<String?>(json['type']),
+      customerName: serializer.fromJson<String?>(json['customerName']),
+      customerPhone: serializer.fromJson<String?>(json['customerPhone']),
+      customerAddress: serializer.fromJson<String?>(json['customerAddress']),
+      description: serializer.fromJson<String?>(json['description']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      detailJson: serializer.fromJson<String?>(json['detailJson']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'title': serializer.toJson<String>(title),
+      'status': serializer.toJson<String>(status),
+      'type': serializer.toJson<String?>(type),
+      'customerName': serializer.toJson<String?>(customerName),
+      'customerPhone': serializer.toJson<String?>(customerPhone),
+      'customerAddress': serializer.toJson<String?>(customerAddress),
+      'description': serializer.toJson<String?>(description),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'detailJson': serializer.toJson<String?>(detailJson),
+    };
+  }
+
+  LocalOrder copyWith({
+    String? id,
+    String? title,
+    String? status,
+    Value<String?> type = const Value.absent(),
+    Value<String?> customerName = const Value.absent(),
+    Value<String?> customerPhone = const Value.absent(),
+    Value<String?> customerAddress = const Value.absent(),
+    Value<String?> description = const Value.absent(),
+    DateTime? updatedAt,
+    Value<String?> detailJson = const Value.absent(),
+  }) => LocalOrder(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    status: status ?? this.status,
+    type: type.present ? type.value : this.type,
+    customerName: customerName.present ? customerName.value : this.customerName,
+    customerPhone: customerPhone.present
+        ? customerPhone.value
+        : this.customerPhone,
+    customerAddress: customerAddress.present
+        ? customerAddress.value
+        : this.customerAddress,
+    description: description.present ? description.value : this.description,
+    updatedAt: updatedAt ?? this.updatedAt,
+    detailJson: detailJson.present ? detailJson.value : this.detailJson,
+  );
+  LocalOrder copyWithCompanion(LocalOrdersCompanion data) {
+    return LocalOrder(
+      id: data.id.present ? data.id.value : this.id,
+      title: data.title.present ? data.title.value : this.title,
+      status: data.status.present ? data.status.value : this.status,
+      type: data.type.present ? data.type.value : this.type,
+      customerName: data.customerName.present
+          ? data.customerName.value
+          : this.customerName,
+      customerPhone: data.customerPhone.present
+          ? data.customerPhone.value
+          : this.customerPhone,
+      customerAddress: data.customerAddress.present
+          ? data.customerAddress.value
+          : this.customerAddress,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      detailJson: data.detailJson.present
+          ? data.detailJson.value
+          : this.detailJson,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalOrder(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('status: $status, ')
+          ..write('type: $type, ')
+          ..write('customerName: $customerName, ')
+          ..write('customerPhone: $customerPhone, ')
+          ..write('customerAddress: $customerAddress, ')
+          ..write('description: $description, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('detailJson: $detailJson')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    title,
+    status,
+    type,
+    customerName,
+    customerPhone,
+    customerAddress,
+    description,
+    updatedAt,
+    detailJson,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LocalOrder &&
+          other.id == this.id &&
+          other.title == this.title &&
+          other.status == this.status &&
+          other.type == this.type &&
+          other.customerName == this.customerName &&
+          other.customerPhone == this.customerPhone &&
+          other.customerAddress == this.customerAddress &&
+          other.description == this.description &&
+          other.updatedAt == this.updatedAt &&
+          other.detailJson == this.detailJson);
+}
+
+class LocalOrdersCompanion extends UpdateCompanion<LocalOrder> {
+  final Value<String> id;
+  final Value<String> title;
+  final Value<String> status;
+  final Value<String?> type;
+  final Value<String?> customerName;
+  final Value<String?> customerPhone;
+  final Value<String?> customerAddress;
+  final Value<String?> description;
+  final Value<DateTime> updatedAt;
+  final Value<String?> detailJson;
+  final Value<int> rowid;
+  const LocalOrdersCompanion({
+    this.id = const Value.absent(),
+    this.title = const Value.absent(),
+    this.status = const Value.absent(),
+    this.type = const Value.absent(),
+    this.customerName = const Value.absent(),
+    this.customerPhone = const Value.absent(),
+    this.customerAddress = const Value.absent(),
+    this.description = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.detailJson = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  LocalOrdersCompanion.insert({
+    required String id,
+    required String title,
+    required String status,
+    this.type = const Value.absent(),
+    this.customerName = const Value.absent(),
+    this.customerPhone = const Value.absent(),
+    this.customerAddress = const Value.absent(),
+    this.description = const Value.absent(),
+    required DateTime updatedAt,
+    this.detailJson = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       title = Value(title),
+       status = Value(status),
+       updatedAt = Value(updatedAt);
+  static Insertable<LocalOrder> custom({
+    Expression<String>? id,
+    Expression<String>? title,
+    Expression<String>? status,
+    Expression<String>? type,
+    Expression<String>? customerName,
+    Expression<String>? customerPhone,
+    Expression<String>? customerAddress,
+    Expression<String>? description,
+    Expression<DateTime>? updatedAt,
+    Expression<String>? detailJson,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (title != null) 'title': title,
+      if (status != null) 'status': status,
+      if (type != null) 'type': type,
+      if (customerName != null) 'customer_name': customerName,
+      if (customerPhone != null) 'customer_phone': customerPhone,
+      if (customerAddress != null) 'customer_address': customerAddress,
+      if (description != null) 'description': description,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (detailJson != null) 'detail_json': detailJson,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  LocalOrdersCompanion copyWith({
+    Value<String>? id,
+    Value<String>? title,
+    Value<String>? status,
+    Value<String?>? type,
+    Value<String?>? customerName,
+    Value<String?>? customerPhone,
+    Value<String?>? customerAddress,
+    Value<String?>? description,
+    Value<DateTime>? updatedAt,
+    Value<String?>? detailJson,
+    Value<int>? rowid,
+  }) {
+    return LocalOrdersCompanion(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      status: status ?? this.status,
+      type: type ?? this.type,
+      customerName: customerName ?? this.customerName,
+      customerPhone: customerPhone ?? this.customerPhone,
+      customerAddress: customerAddress ?? this.customerAddress,
+      description: description ?? this.description,
+      updatedAt: updatedAt ?? this.updatedAt,
+      detailJson: detailJson ?? this.detailJson,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
+    if (customerName.present) {
+      map['customer_name'] = Variable<String>(customerName.value);
+    }
+    if (customerPhone.present) {
+      map['customer_phone'] = Variable<String>(customerPhone.value);
+    }
+    if (customerAddress.present) {
+      map['customer_address'] = Variable<String>(customerAddress.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (detailJson.present) {
+      map['detail_json'] = Variable<String>(detailJson.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalOrdersCompanion(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('status: $status, ')
+          ..write('type: $type, ')
+          ..write('customerName: $customerName, ')
+          ..write('customerPhone: $customerPhone, ')
+          ..write('customerAddress: $customerAddress, ')
+          ..write('description: $description, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('detailJson: $detailJson, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $LocalProjectsTable extends LocalProjects
+    with TableInfo<$LocalProjectsTable, LocalProject> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LocalProjectsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _siteAddressMeta = const VerificationMeta(
+    'siteAddress',
+  );
+  @override
+  late final GeneratedColumn<String> siteAddress = GeneratedColumn<String>(
+    'site_address',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _detailJsonMeta = const VerificationMeta(
+    'detailJson',
+  );
+  @override
+  late final GeneratedColumn<String> detailJson = GeneratedColumn<String>(
+    'detail_json',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    status,
+    siteAddress,
+    description,
+    createdAt,
+    detailJson,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'local_projects';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<LocalProject> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_statusMeta);
+    }
+    if (data.containsKey('site_address')) {
+      context.handle(
+        _siteAddressMeta,
+        siteAddress.isAcceptableOrUnknown(
+          data['site_address']!,
+          _siteAddressMeta,
+        ),
+      );
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('detail_json')) {
+      context.handle(
+        _detailJsonMeta,
+        detailJson.isAcceptableOrUnknown(data['detail_json']!, _detailJsonMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  LocalProject map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LocalProject(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      siteAddress: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}site_address'],
+      ),
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      detailJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}detail_json'],
+      ),
+    );
+  }
+
+  @override
+  $LocalProjectsTable createAlias(String alias) {
+    return $LocalProjectsTable(attachedDatabase, alias);
+  }
+}
+
+class LocalProject extends DataClass implements Insertable<LocalProject> {
+  final String id;
+  final String name;
+  final String status;
+  final String? siteAddress;
+  final String? description;
+  final DateTime createdAt;
+  final String? detailJson;
+  const LocalProject({
+    required this.id,
+    required this.name,
+    required this.status,
+    this.siteAddress,
+    this.description,
+    required this.createdAt,
+    this.detailJson,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['name'] = Variable<String>(name);
+    map['status'] = Variable<String>(status);
+    if (!nullToAbsent || siteAddress != null) {
+      map['site_address'] = Variable<String>(siteAddress);
+    }
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || detailJson != null) {
+      map['detail_json'] = Variable<String>(detailJson);
+    }
+    return map;
+  }
+
+  LocalProjectsCompanion toCompanion(bool nullToAbsent) {
+    return LocalProjectsCompanion(
+      id: Value(id),
+      name: Value(name),
+      status: Value(status),
+      siteAddress: siteAddress == null && nullToAbsent
+          ? const Value.absent()
+          : Value(siteAddress),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      createdAt: Value(createdAt),
+      detailJson: detailJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(detailJson),
+    );
+  }
+
+  factory LocalProject.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LocalProject(
+      id: serializer.fromJson<String>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      status: serializer.fromJson<String>(json['status']),
+      siteAddress: serializer.fromJson<String?>(json['siteAddress']),
+      description: serializer.fromJson<String?>(json['description']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      detailJson: serializer.fromJson<String?>(json['detailJson']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'name': serializer.toJson<String>(name),
+      'status': serializer.toJson<String>(status),
+      'siteAddress': serializer.toJson<String?>(siteAddress),
+      'description': serializer.toJson<String?>(description),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'detailJson': serializer.toJson<String?>(detailJson),
+    };
+  }
+
+  LocalProject copyWith({
+    String? id,
+    String? name,
+    String? status,
+    Value<String?> siteAddress = const Value.absent(),
+    Value<String?> description = const Value.absent(),
+    DateTime? createdAt,
+    Value<String?> detailJson = const Value.absent(),
+  }) => LocalProject(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    status: status ?? this.status,
+    siteAddress: siteAddress.present ? siteAddress.value : this.siteAddress,
+    description: description.present ? description.value : this.description,
+    createdAt: createdAt ?? this.createdAt,
+    detailJson: detailJson.present ? detailJson.value : this.detailJson,
+  );
+  LocalProject copyWithCompanion(LocalProjectsCompanion data) {
+    return LocalProject(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      status: data.status.present ? data.status.value : this.status,
+      siteAddress: data.siteAddress.present
+          ? data.siteAddress.value
+          : this.siteAddress,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      detailJson: data.detailJson.present
+          ? data.detailJson.value
+          : this.detailJson,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalProject(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('status: $status, ')
+          ..write('siteAddress: $siteAddress, ')
+          ..write('description: $description, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('detailJson: $detailJson')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    name,
+    status,
+    siteAddress,
+    description,
+    createdAt,
+    detailJson,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LocalProject &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.status == this.status &&
+          other.siteAddress == this.siteAddress &&
+          other.description == this.description &&
+          other.createdAt == this.createdAt &&
+          other.detailJson == this.detailJson);
+}
+
+class LocalProjectsCompanion extends UpdateCompanion<LocalProject> {
+  final Value<String> id;
+  final Value<String> name;
+  final Value<String> status;
+  final Value<String?> siteAddress;
+  final Value<String?> description;
+  final Value<DateTime> createdAt;
+  final Value<String?> detailJson;
+  final Value<int> rowid;
+  const LocalProjectsCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.status = const Value.absent(),
+    this.siteAddress = const Value.absent(),
+    this.description = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.detailJson = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  LocalProjectsCompanion.insert({
+    required String id,
+    required String name,
+    required String status,
+    this.siteAddress = const Value.absent(),
+    this.description = const Value.absent(),
+    required DateTime createdAt,
+    this.detailJson = const Value.absent(),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       name = Value(name),
+       status = Value(status),
+       createdAt = Value(createdAt);
+  static Insertable<LocalProject> custom({
+    Expression<String>? id,
+    Expression<String>? name,
+    Expression<String>? status,
+    Expression<String>? siteAddress,
+    Expression<String>? description,
+    Expression<DateTime>? createdAt,
+    Expression<String>? detailJson,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (status != null) 'status': status,
+      if (siteAddress != null) 'site_address': siteAddress,
+      if (description != null) 'description': description,
+      if (createdAt != null) 'created_at': createdAt,
+      if (detailJson != null) 'detail_json': detailJson,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  LocalProjectsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? name,
+    Value<String>? status,
+    Value<String?>? siteAddress,
+    Value<String?>? description,
+    Value<DateTime>? createdAt,
+    Value<String?>? detailJson,
+    Value<int>? rowid,
+  }) {
+    return LocalProjectsCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      status: status ?? this.status,
+      siteAddress: siteAddress ?? this.siteAddress,
+      description: description ?? this.description,
+      createdAt: createdAt ?? this.createdAt,
+      detailJson: detailJson ?? this.detailJson,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (siteAddress.present) {
+      map['site_address'] = Variable<String>(siteAddress.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (detailJson.present) {
+      map['detail_json'] = Variable<String>(detailJson.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalProjectsCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('status: $status, ')
+          ..write('siteAddress: $siteAddress, ')
+          ..write('description: $description, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('detailJson: $detailJson, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $SyncOutboxTable syncOutbox = $SyncOutboxTable(this);
   late final $SyncStatesTable syncStates = $SyncStatesTable(this);
   late final $CachedFilesTable cachedFiles = $CachedFilesTable(this);
+  late final $LocalOrdersTable localOrders = $LocalOrdersTable(this);
+  late final $LocalProjectsTable localProjects = $LocalProjectsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -1254,6 +2363,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     syncOutbox,
     syncStates,
     cachedFiles,
+    localOrders,
+    localProjects,
   ];
 }
 
@@ -1911,6 +3022,555 @@ typedef $$CachedFilesTableProcessedTableManager =
       CachedFile,
       PrefetchHooks Function()
     >;
+typedef $$LocalOrdersTableCreateCompanionBuilder =
+    LocalOrdersCompanion Function({
+      required String id,
+      required String title,
+      required String status,
+      Value<String?> type,
+      Value<String?> customerName,
+      Value<String?> customerPhone,
+      Value<String?> customerAddress,
+      Value<String?> description,
+      required DateTime updatedAt,
+      Value<String?> detailJson,
+      Value<int> rowid,
+    });
+typedef $$LocalOrdersTableUpdateCompanionBuilder =
+    LocalOrdersCompanion Function({
+      Value<String> id,
+      Value<String> title,
+      Value<String> status,
+      Value<String?> type,
+      Value<String?> customerName,
+      Value<String?> customerPhone,
+      Value<String?> customerAddress,
+      Value<String?> description,
+      Value<DateTime> updatedAt,
+      Value<String?> detailJson,
+      Value<int> rowid,
+    });
+
+class $$LocalOrdersTableFilterComposer
+    extends Composer<_$AppDatabase, $LocalOrdersTable> {
+  $$LocalOrdersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get customerName => $composableBuilder(
+    column: $table.customerName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get customerPhone => $composableBuilder(
+    column: $table.customerPhone,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get customerAddress => $composableBuilder(
+    column: $table.customerAddress,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get detailJson => $composableBuilder(
+    column: $table.detailJson,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$LocalOrdersTableOrderingComposer
+    extends Composer<_$AppDatabase, $LocalOrdersTable> {
+  $$LocalOrdersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get customerName => $composableBuilder(
+    column: $table.customerName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get customerPhone => $composableBuilder(
+    column: $table.customerPhone,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get customerAddress => $composableBuilder(
+    column: $table.customerAddress,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get detailJson => $composableBuilder(
+    column: $table.detailJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$LocalOrdersTableAnnotationComposer
+    extends Composer<_$AppDatabase, $LocalOrdersTable> {
+  $$LocalOrdersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<String> get customerName => $composableBuilder(
+    column: $table.customerName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get customerPhone => $composableBuilder(
+    column: $table.customerPhone,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get customerAddress => $composableBuilder(
+    column: $table.customerAddress,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<String> get detailJson => $composableBuilder(
+    column: $table.detailJson,
+    builder: (column) => column,
+  );
+}
+
+class $$LocalOrdersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $LocalOrdersTable,
+          LocalOrder,
+          $$LocalOrdersTableFilterComposer,
+          $$LocalOrdersTableOrderingComposer,
+          $$LocalOrdersTableAnnotationComposer,
+          $$LocalOrdersTableCreateCompanionBuilder,
+          $$LocalOrdersTableUpdateCompanionBuilder,
+          (
+            LocalOrder,
+            BaseReferences<_$AppDatabase, $LocalOrdersTable, LocalOrder>,
+          ),
+          LocalOrder,
+          PrefetchHooks Function()
+        > {
+  $$LocalOrdersTableTableManager(_$AppDatabase db, $LocalOrdersTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LocalOrdersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$LocalOrdersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$LocalOrdersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<String?> type = const Value.absent(),
+                Value<String?> customerName = const Value.absent(),
+                Value<String?> customerPhone = const Value.absent(),
+                Value<String?> customerAddress = const Value.absent(),
+                Value<String?> description = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<String?> detailJson = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalOrdersCompanion(
+                id: id,
+                title: title,
+                status: status,
+                type: type,
+                customerName: customerName,
+                customerPhone: customerPhone,
+                customerAddress: customerAddress,
+                description: description,
+                updatedAt: updatedAt,
+                detailJson: detailJson,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String title,
+                required String status,
+                Value<String?> type = const Value.absent(),
+                Value<String?> customerName = const Value.absent(),
+                Value<String?> customerPhone = const Value.absent(),
+                Value<String?> customerAddress = const Value.absent(),
+                Value<String?> description = const Value.absent(),
+                required DateTime updatedAt,
+                Value<String?> detailJson = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalOrdersCompanion.insert(
+                id: id,
+                title: title,
+                status: status,
+                type: type,
+                customerName: customerName,
+                customerPhone: customerPhone,
+                customerAddress: customerAddress,
+                description: description,
+                updatedAt: updatedAt,
+                detailJson: detailJson,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$LocalOrdersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $LocalOrdersTable,
+      LocalOrder,
+      $$LocalOrdersTableFilterComposer,
+      $$LocalOrdersTableOrderingComposer,
+      $$LocalOrdersTableAnnotationComposer,
+      $$LocalOrdersTableCreateCompanionBuilder,
+      $$LocalOrdersTableUpdateCompanionBuilder,
+      (
+        LocalOrder,
+        BaseReferences<_$AppDatabase, $LocalOrdersTable, LocalOrder>,
+      ),
+      LocalOrder,
+      PrefetchHooks Function()
+    >;
+typedef $$LocalProjectsTableCreateCompanionBuilder =
+    LocalProjectsCompanion Function({
+      required String id,
+      required String name,
+      required String status,
+      Value<String?> siteAddress,
+      Value<String?> description,
+      required DateTime createdAt,
+      Value<String?> detailJson,
+      Value<int> rowid,
+    });
+typedef $$LocalProjectsTableUpdateCompanionBuilder =
+    LocalProjectsCompanion Function({
+      Value<String> id,
+      Value<String> name,
+      Value<String> status,
+      Value<String?> siteAddress,
+      Value<String?> description,
+      Value<DateTime> createdAt,
+      Value<String?> detailJson,
+      Value<int> rowid,
+    });
+
+class $$LocalProjectsTableFilterComposer
+    extends Composer<_$AppDatabase, $LocalProjectsTable> {
+  $$LocalProjectsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get siteAddress => $composableBuilder(
+    column: $table.siteAddress,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get detailJson => $composableBuilder(
+    column: $table.detailJson,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$LocalProjectsTableOrderingComposer
+    extends Composer<_$AppDatabase, $LocalProjectsTable> {
+  $$LocalProjectsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get siteAddress => $composableBuilder(
+    column: $table.siteAddress,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get detailJson => $composableBuilder(
+    column: $table.detailJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$LocalProjectsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $LocalProjectsTable> {
+  $$LocalProjectsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get siteAddress => $composableBuilder(
+    column: $table.siteAddress,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get detailJson => $composableBuilder(
+    column: $table.detailJson,
+    builder: (column) => column,
+  );
+}
+
+class $$LocalProjectsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $LocalProjectsTable,
+          LocalProject,
+          $$LocalProjectsTableFilterComposer,
+          $$LocalProjectsTableOrderingComposer,
+          $$LocalProjectsTableAnnotationComposer,
+          $$LocalProjectsTableCreateCompanionBuilder,
+          $$LocalProjectsTableUpdateCompanionBuilder,
+          (
+            LocalProject,
+            BaseReferences<_$AppDatabase, $LocalProjectsTable, LocalProject>,
+          ),
+          LocalProject,
+          PrefetchHooks Function()
+        > {
+  $$LocalProjectsTableTableManager(_$AppDatabase db, $LocalProjectsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LocalProjectsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$LocalProjectsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$LocalProjectsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<String?> siteAddress = const Value.absent(),
+                Value<String?> description = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<String?> detailJson = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalProjectsCompanion(
+                id: id,
+                name: name,
+                status: status,
+                siteAddress: siteAddress,
+                description: description,
+                createdAt: createdAt,
+                detailJson: detailJson,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String name,
+                required String status,
+                Value<String?> siteAddress = const Value.absent(),
+                Value<String?> description = const Value.absent(),
+                required DateTime createdAt,
+                Value<String?> detailJson = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalProjectsCompanion.insert(
+                id: id,
+                name: name,
+                status: status,
+                siteAddress: siteAddress,
+                description: description,
+                createdAt: createdAt,
+                detailJson: detailJson,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$LocalProjectsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $LocalProjectsTable,
+      LocalProject,
+      $$LocalProjectsTableFilterComposer,
+      $$LocalProjectsTableOrderingComposer,
+      $$LocalProjectsTableAnnotationComposer,
+      $$LocalProjectsTableCreateCompanionBuilder,
+      $$LocalProjectsTableUpdateCompanionBuilder,
+      (
+        LocalProject,
+        BaseReferences<_$AppDatabase, $LocalProjectsTable, LocalProject>,
+      ),
+      LocalProject,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -1921,4 +3581,8 @@ class $AppDatabaseManager {
       $$SyncStatesTableTableManager(_db, _db.syncStates);
   $$CachedFilesTableTableManager get cachedFiles =>
       $$CachedFilesTableTableManager(_db, _db.cachedFiles);
+  $$LocalOrdersTableTableManager get localOrders =>
+      $$LocalOrdersTableTableManager(_db, _db.localOrders);
+  $$LocalProjectsTableTableManager get localProjects =>
+      $$LocalProjectsTableTableManager(_db, _db.localProjects);
 }

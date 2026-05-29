@@ -230,7 +230,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 }
 
-/// Merkevare-logo i gradient glass-chip.
+/// Merkevare-logo i rent, profesjonelt light-mode design.
 class _LogoMark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -239,17 +239,18 @@ class _LogoMark extends StatelessWidget {
       height: 72,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        gradient: AppColors.accentGradient,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppColors.border, width: 1),
+        boxShadow: const [
           BoxShadow(
-            color: AppColors.accent.withValues(alpha: 0.35),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
+            color: AppColors.shadow,
+            blurRadius: 12,
+            offset: Offset(0, 4),
           ),
         ],
       ),
-      child: const Icon(CupertinoIcons.bolt_fill, color: Colors.white, size: 36),
+      child: const Icon(CupertinoIcons.bolt_fill, color: AppColors.label, size: 36),
     );
   }
 }

@@ -60,6 +60,7 @@ class AmpexGroupedSection extends StatelessWidget {
               ),
             ),
           AmpexGlass(
+            elevated: true,
             child: Column(mainAxisSize: MainAxisSize.min, children: rows),
           ),
           if (footer != null)

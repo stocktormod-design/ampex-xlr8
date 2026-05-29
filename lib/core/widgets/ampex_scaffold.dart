@@ -1,88 +1,161 @@
-import 'dart:ui';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../theme/app_breakpoints.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
 import '../theme/app_typography.dart';
 import 'ampex_glass.dart';
 import 'offline_banner.dart';
 
-/// Sideskall: gradient-bakteppe + glass-navbar + stor tittel.
+/// Sideskall: flat bakgrunn + stor tittel + responsiv innholdsbredde.
 ///
-/// Én sannhet for alle skjermer (iOS/Android/web føles likt).
+/// Én sannhet for alle skjermer. Innholdet får en lesbar maks-bredde og
+/// fyller bredden på mobil – aldri en tynn boks som flyter midt på skjermen.
 class AmpexScaffold extends StatelessWidget {
   const AmpexScaffold({
     super.key,
     required this.title,
     required this.slivers,
     this.trailing,
-    this.maxContentWidth = 440,
+    this.subtitle,
+    this.eyebrow,
+    this.onBack,
+    this.onRefresh,
+    this.maxContentWidth = 1040,
   });
 
   final String title;
   final List<Widget> slivers;
   final Widget? trailing;
+  final Widget? subtitle;
+  final String? eyebrow;
+  final VoidCallback? onBack;
+  final Future<void> Function()? onRefresh;
   final double maxContentWidth;
 
   @override
   Widget build(BuildContext context) {
     final topPad = MediaQuery.paddingOf(context).top;
+    final isMobile = context.isMobile;
+    final hPad = isMobile ? AppSpacing.screenH : AppSpacing.xl;
 
     return AmpexBackdrop(
       child: OfflineBanner(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: maxContentWidth),
-            child: Stack(
-              children: [
-                // Innhold scroller under den frostede baren.
-                CustomScrollView(
-                  physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics(),
-                  ),
+        child: Stack(
+          children: [
+            Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: maxContentWidth),
+                child: _scrollBody(
+                  topPad: topPad,
                   slivers: [
                     SliverToBoxAdapter(
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(
-                          AppSpacing.screenH,
-                          topPad + 64,
-                          AppSpacing.screenH,
+                          hPad,
+                          topPad + (isMobile ? 52 : 28),
+                          hPad,
                           AppSpacing.md,
                         ),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            if (onBack != null) ...[
+                              Padding(
+                                padding: const EdgeInsets.only(top: 2, right: 4),
+                                child: IconButton(
+                                  onPressed: onBack,
+                                  icon: const Icon(CupertinoIcons.back, size: 26),
+                                  color: AppColors.accent,
+                                  visualDensity: VisualDensity.compact,
+                                  padding: EdgeInsets.zero,
+                                  constraints: const BoxConstraints(
+                                    minWidth: 36,
+                                    minHeight: 36,
+                                  ),
+                                ),
+                              ),
+                            ],
                             Expanded(
-                              child: Text(title, style: AppTypography.largeTitle),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if (eyebrow != null) ...[
+                                    Text(
+                                      eyebrow!.toUpperCase(),
+                                      style: AppTypography.caption.copyWith(
+                                        color: AppColors.labelTertiary,
+                                        letterSpacing: 1.2,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    const SizedBox(height: AppSpacing.sm),
+                                  ],
+                                  Text(title, style: AppTypography.largeTitle),
+                                  if (subtitle != null) ...[
+                                    const SizedBox(height: AppSpacing.xs + 2),
+                                    subtitle!,
+                                  ],
+                                ],
+                              ),
                             ),
-                            ?trailing,
+                            if (trailing != null) ...[
+                              const SizedBox(width: AppSpacing.md),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 4),
+                                child: trailing!,
+                              ),
+                            ],
                           ],
                         ),
                       ),
                     ),
                     ...slivers,
+                    SliverToBoxAdapter(
+                      child: SizedBox(height: isMobile ? 96 : AppSpacing.xl),
+                    ),
                   ],
                 ),
-                // Frostet status-bar-stripe øverst.
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: ClipRect(
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-                      child: Container(
-                        height: topPad + 8,
-                        color: AppColors.glassBar.withValues(alpha: 0.4),
-                      ),
-                    ),
+              ),
+            ),
+            if (topPad > 0)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: AmpexBarBlur(
+                  child: Container(
+                    height: topPad,
+                    color: AppColors.barBackground.withValues(alpha: 0.6),
                   ),
                 ),
-              ],
-            ),
-          ),
+              ),
+          ],
         ),
       ),
+    );
+  }
+
+  Widget _scrollBody({
+    required double topPad,
+    required List<Widget> slivers,
+  }) {
+    final scrollView = CustomScrollView(
+      physics: const AlwaysScrollableScrollPhysics(
+        parent: BouncingScrollPhysics(),
+      ),
+      slivers: slivers,
+    );
+
+    if (onRefresh == null) return scrollView;
+
+    return RefreshIndicator(
+      onRefresh: onRefresh!,
+      color: AppColors.accent,
+      edgeOffset: topPad + 48,
+      child: scrollView,
     );
   }
 }

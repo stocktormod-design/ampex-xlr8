@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../sync/sync_providers.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
 
@@ -25,6 +26,7 @@ class OfflineBanner extends ConsumerWidget {
           data: (r) => r.isEmpty || r.every((x) => x == ConnectivityResult.none),
           orElse: () => false,
         );
+    final pendingSync = ref.watch(pendingSyncCountProvider).valueOrNull ?? 0;
 
     return Column(
       children: [
@@ -45,9 +47,38 @@ class OfflineBanner extends ConsumerWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'Offline – endringer lagres og synkroniseres når du er på nett.',
+                      pendingSync > 0
+                          ? 'Offline – $pendingSync endring(er) venter på synk.'
+                          : 'Offline – endringer lagres og synkroniseres når du er på nett.',
                       style: AppTypography.footnote
                           .copyWith(color: AppColors.destructive),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+        else if (pendingSync > 0)
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: AppColors.statusWaiting.withValues(alpha: 0.12),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                children: [
+                  const Icon(
+                    CupertinoIcons.arrow_clockwise,
+                    size: 16,
+                    color: AppColors.statusWaiting,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Synkroniserer $pendingSync ventende endring(er)…',
+                      style: AppTypography.footnote.copyWith(
+                        color: AppColors.statusWaiting,
+                      ),
                     ),
                   ),
                 ],

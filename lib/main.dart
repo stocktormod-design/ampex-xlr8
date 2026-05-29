@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app.dart';
 import 'app_startup.dart';
 import 'bootstrap.dart';
+import 'core/sync/sync_providers.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +35,9 @@ Future<void> main() async {
       runApp(
         ProviderScope(
           child: AppStartup(
-            child: const AmpexApp(),
+            child: const SyncOrchestrator(
+              child: AmpexApp(),
+            ),
           ),
         ),
       );

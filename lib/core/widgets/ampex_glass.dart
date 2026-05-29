@@ -5,9 +5,6 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
 
-/// En helt ren bakgrunn, droppet farge-blobs. Ekte Spotify-clean.
-///
-/// Brukes på start/login for en veldig myk gradient mot sort.
 class AmpexBackdrop extends StatelessWidget {
   const AmpexBackdrop({super.key, required this.child});
 
@@ -15,57 +12,68 @@ class AmpexBackdrop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: const BoxDecoration(gradient: AppColors.backdropGradient),
-      child: child,
-    );
+    return ColoredBox(color: AppColors.background, child: child);
   }
 }
 
-/// Frostet glassflate – tilpasset dark mode.
+/// Mørkt dashboard-kort med subtil kant.
 class AmpexGlass extends StatelessWidget {
   const AmpexGlass({
     super.key,
     required this.child,
     this.borderRadius = AppRadius.sectionBorder,
-    this.color = AppColors.glassSurface,
-    this.blur = 14,
+    this.color = AppColors.surface,
     this.border = true,
-    this.shadow = false,
-    this.clip = true,
+    this.elevated = false,
+    this.gradient,
+    this.blur = 0.0,
   });
 
   final Widget child;
   final BorderRadius borderRadius;
   final Color color;
-  final double blur;
   final bool border;
-  final bool shadow;
-  final bool clip;
+  final bool elevated;
+  final Gradient? gradient;
+  final double blur;
 
   @override
   Widget build(BuildContext context) {
-    final content = DecoratedBox(
+    final useGradient = gradient ?? (elevated ? AppColors.cardGradient : null);
+
+    return DecoratedBox(
       decoration: BoxDecoration(
-        color: color,
+        color: useGradient == null ? color : null,
+        gradient: useGradient,
         borderRadius: borderRadius,
-        border: border
-            ? Border.all(color: AppColors.glassBorder, width: 0.75)
+        border: border ? Border.all(color: AppColors.border, width: 1) : null,
+        boxShadow: elevated
+            ? const [
+                BoxShadow(
+                  color: Color(0x30000000),
+                  blurRadius: 24,
+                  offset: Offset(0, 8),
+                ),
+              ]
             : null,
       ),
-      child: child,
+      child: ClipRRect(borderRadius: borderRadius, child: child),
     );
+  }
+}
 
-    final blurred = clip
-        ? ClipRRect(
-            borderRadius: borderRadius,
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
-              child: content,
-            ),
-          )
-        : content;
+class AmpexBarBlur extends StatelessWidget {
+  const AmpexBarBlur({super.key, required this.child});
 
-    return blurred; // Ingen skygge i mørk modus
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
+        child: child,
+      ),
+    );
   }
 }

@@ -1,60 +1,72 @@
 import 'package:flutter/cupertino.dart';
 
-/// Ampex design tokens – farger (én sannhet for iOS, Android og web).
-///
-/// Retning: Spotify Dark Mode, minimal og monokrom.
+/// Ampex palette tuned to the referenced web dashboard.
 abstract final class AppColors {
-  // ── Bakgrunn (Dyp mørk) ─────────────────────────────────────────────────────
-  static const background = Color(0xFF0F0F10);
+  static const background = Color(0xFF060C18);
+  static const surface = Color(0xFF0B1528);
+  static const surfaceElevated = Color(0xFF101B30);
+  static const surfaceHighlight = Color(0xFF14233D);
 
-  /// Overflate nivå 1 (kort, grouped sections)
-  static const surface = Color(0xFF18181A);
+  static const label = Color(0xFFF3F7FF);
+  static const labelSecondary = Color(0xFF9FB0CD);
+  static const labelTertiary = Color(0xFF6F7F9A);
+  static const labelPlaceholder = Color(0xFF7382A1);
 
-  /// Overflate nivå 2 (tab bar, nav bar, quick tiles)
-  static const surfaceElevated = Color(0xFF202124);
-
-  /// Overflate nivå 3 (felt)
-  static const surfaceHighlight = Color(0xFF2A2B30);
-
-  // ── Tekst (Høy kontrast) ───────────────────────────────────────────────────
-  static const label = Color(0xFFFFFFFF);
-  static const labelSecondary = Color(0xFFB1B1B3);
-  static const labelTertiary = Color(0xFF7D7D81);
-  static const labelPlaceholder = Color(0xFF5D5D61);
-
-  // ── Accent (Én tydelig handling) ────────────────────────────────────────────
-  /// Eneste accent: Spotify-grønn.
-  static const accent = Color(0xFF1DB954);
-  static const accentSoft = Color(0x261DB954);
+  static const accent = Color(0xFF2F7BFF);
+  static const accentSecondary = Color(0xFF59A2FF);
+  static const accentPressed = Color(0x332F7BFF);
+  static const accentSoft = Color(0x1A2F7BFF);
+  static const onAccent = Color(0xFFF8FBFF);
 
   static const LinearGradient accentGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [Color(0xFF34D66B), accent],
+    colors: [Color(0xFF3D8BFF), Color(0xFF1D61F1)],
   );
 
-  // ── Semantiske ─────────────────────────────────────────────────────────────
-  static const destructive = Color(0xFFE5484D);
-  static const success = Color(0xFF1DB954);
-  static const warning = Color(0xFFFFA42B);
+  static const statusNeutral = Color(0xFF8B9BBC);
+  static const statusActive = Color(0xFF2F7BFF);
+  static const statusWaiting = Color(0xFFFFA53D);
+  static const statusDone = Color(0xFF3DDC84);
 
-  // ── Skillelinjer (Svært subtile i dark mode) ───────────────────────────────
-  static const separator = Color(0x20FFFFFF);
-  static const separatorOpaque = Color(0xFF2A2A2A);
+  static const destructive = Color(0xFFFF6E7A);
+  static const success = Color(0xFF3DDC84);
+  static const warning = Color(0xFFFFA53D);
 
-  // ── Interaktive states ────────────────────────────────────────────────────
-  static const pressed = Color(0x1AFFFFFF);
-  static const selected = Color(0x1A1DB954);
+  static const separator = Color(0x2A6B88B3);
+  static const border = Color(0x2D7FA2D9);
+  static const borderGlow = Color(0x337CA9FF);
+  static const separatorOpaque = Color(0xFF1A2944);
 
-  // ── Glassflater (Tilpasset mørk modus) ──────────────────────────────────────
-  static const glassSurface = Color(0xD918181A);
-  static const glassBar = Color(0xE60F0F10);
-  static const glassBorder = Color(0x26FFFFFF);
+  static const cardHighlight = Color(0xFF11203A);
+  static const shadow = Color(0x50030B1A);
 
-  // ── Bakteppe (diskret, nesten flat) ────────────────────────────────────────
+  static const LinearGradient cardGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [Color(0xFF0F1A2F), Color(0xFF091326)],
+  );
+
+  static const LinearGradient heroGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF152A4D), Color(0xFF0A1224)],
+  );
+
+  static const pressed = Color(0x1A2F7BFF);
+  static const hover = Color(0x142F7BFF);
+  static const selected = Color(0x262F7BFF);
+
+  static const barBackground = Color(0xE60B1528);
+  static const sidebarBackground = Color(0xFF050C1A);
+
+  static const glassSurface = surface;
+  static const glassBar = barBackground;
+  static const glassBorder = border;
+
   static const LinearGradient backdropGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: [Color(0xFF161618), Color(0xFF0F0F10)],
+    colors: [Color(0xFF061024), Color(0xFF040A16)],
   );
 }

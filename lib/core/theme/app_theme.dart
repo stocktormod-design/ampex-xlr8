@@ -7,18 +7,14 @@ import 'app_radius.dart';
 import 'app_spacing.dart';
 import 'app_typography.dart';
 
-/// Ampex designsystem – DARK MODUS.
-///
-/// Én ThemeData brukt på alle plattformer (iOS, Android, web).
+/// Ampex Pro – mørkt dashboard med hvite accenter.
 class AppTheme {
-  static ThemeData light() {
-    return dark(); // Tvinger dyp Spotify-tema overalt, uansett systeminnstilling.
-  }
+  static ThemeData light() => dark();
 
   static ThemeData dark() {
     const cs = ColorScheme.dark(
       primary: AppColors.accent,
-      onPrimary: Colors.white,
+      onPrimary: AppColors.onAccent,
       surface: AppColors.surface,
       onSurface: AppColors.label,
       onSurfaceVariant: AppColors.labelSecondary,
@@ -32,34 +28,26 @@ class AppTheme {
 
     return ThemeData(
       useMaterial3: true,
+      brightness: Brightness.dark,
       colorScheme: cs,
       scaffoldBackgroundColor: AppColors.background,
       splashFactory: InkRipple.splashFactory,
       splashColor: AppColors.pressed,
       highlightColor: Colors.transparent,
-
-      // ── Cupertino overlay ───────────────────────────────────────────────────
       cupertinoOverrideTheme: const CupertinoThemeData(
         brightness: Brightness.dark,
         primaryColor: AppColors.accent,
         scaffoldBackgroundColor: AppColors.background,
-        barBackgroundColor: AppColors.background,
+        barBackgroundColor: AppColors.barBackground,
       ),
-
-      // ── AppBar ──────────────────────────────────────────────────────────────
       appBarTheme: AppBarTheme(
         elevation: 0,
         scrolledUnderElevation: 0,
         backgroundColor: AppColors.background,
         foregroundColor: AppColors.label,
         titleTextStyle: AppTypography.headline,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarBrightness: Brightness.dark,
-          statusBarIconBrightness: Brightness.light,
-        ),
+        systemOverlayStyle: SystemUiOverlayStyle.light,
       ),
-
-      // ── Text (Inter via AppTypography) ───────────────────────────────────────
       textTheme: TextTheme(
         displayLarge: AppTypography.largeTitle,
         displayMedium: AppTypography.title1,
@@ -72,70 +60,53 @@ class AppTheme {
         labelMedium: AppTypography.caption,
         labelSmall: AppTypography.tabLabel,
       ),
-
-      // ── Buttons ─────────────────────────────────────────────────────────────
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           backgroundColor: AppColors.accent,
-          foregroundColor: Colors.white,
+          foregroundColor: AppColors.onAccent,
           minimumSize: const Size.fromHeight(AppSpacing.minTouch + 6),
           shape: const RoundedRectangleBorder(borderRadius: AppRadius.buttonBorder),
-          textStyle: AppTypography.headline,
+          textStyle: AppTypography.headline.copyWith(color: AppColors.onAccent),
           elevation: 0,
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.label, // Hvit i mørkt tema for renhet
+          foregroundColor: AppColors.label,
           textStyle: AppTypography.body,
           minimumSize: const Size(0, AppSpacing.minTouch),
         ),
       ),
-
-      // ── Input ───────────────────────────────────────────────────────────────
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.surfaceHighlight, // Viser inputfeltet i mørket
+        fillColor: AppColors.surfaceElevated,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.rowH,
           vertical: AppSpacing.rowV,
         ),
         border: OutlineInputBorder(
           borderRadius: AppRadius.sectionBorder,
-          borderSide: BorderSide.none,
+          borderSide: const BorderSide(color: AppColors.border, width: 1),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: AppRadius.sectionBorder,
-          borderSide: BorderSide.none,
+          borderSide: const BorderSide(color: AppColors.border, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: AppRadius.sectionBorder,
-          borderSide: const BorderSide(color: AppColors.labelSecondary, width: 1),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: AppRadius.sectionBorder,
-          borderSide: const BorderSide(color: AppColors.destructive, width: 1),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: AppRadius.sectionBorder,
-          borderSide: const BorderSide(color: AppColors.destructive, width: 1.5),
+          borderSide: const BorderSide(color: AppColors.accent, width: 1),
         ),
         hintStyle: AppTypography.body.copyWith(color: AppColors.labelPlaceholder),
-        errorStyle: AppTypography.footnote.copyWith(color: AppColors.destructive),
       ),
-
-      // ── Divider ─────────────────────────────────────────────────────────────
       dividerTheme: const DividerThemeData(
         color: AppColors.separator,
         thickness: 0.5,
         space: 0,
       ),
-
-      // ── BottomNavigation ────────────────────────────────────────────────────
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColors.surface,
         selectedItemColor: AppColors.label,
-        unselectedItemColor: AppColors.labelSecondary,
+        unselectedItemColor: AppColors.labelTertiary,
         selectedLabelStyle: AppTypography.tabLabel,
         unselectedLabelStyle: AppTypography.tabLabel,
         elevation: 0,

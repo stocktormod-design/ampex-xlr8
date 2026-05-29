@@ -3,9 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'app_colors.dart';
 
-/// Ampex typografi – Inter på alle plattformer (lastes riktig på web).
+/// Ampex typografi – Inter for en stram, profesjonell SaaS-følelse.
 abstract final class AppTypography {
-  static TextStyle _inter({
+  static TextStyle _font({
     required double size,
     required FontWeight weight,
     required Color color,
@@ -21,64 +21,63 @@ abstract final class AppTypography {
     );
   }
 
-  /// 32 · Bold · Skjermoverskrift / hilsen
-  static TextStyle get largeTitle => _inter(
-        size: 32,
-        weight: FontWeight.w700,
-        color: AppColors.label,
-        height: 1.12,
-        letterSpacing: -0.6,
-      );
-
-  static TextStyle get title1 => _inter(
-        size: 26,
+  static TextStyle get largeTitle => _font(
+        size: 28,
         weight: FontWeight.w600,
         color: AppColors.label,
         height: 1.2,
-        letterSpacing: -0.4,
+        letterSpacing: -0.6,
       );
 
-  static TextStyle get title2 => _inter(
-        size: 20,
+  static TextStyle get title1 => _font(
+        size: 24,
         weight: FontWeight.w600,
         color: AppColors.label,
-        height: 1.25,
-        letterSpacing: -0.3,
+        height: 1.2,
+        letterSpacing: -0.5,
       );
 
-  /// Rad-tittel, knapper
-  static TextStyle get headline => _inter(
-        size: 16,
+  static TextStyle get title2 => _font(
+        size: 18,
         weight: FontWeight.w600,
         color: AppColors.label,
         height: 1.3,
-        letterSpacing: -0.2,
+        letterSpacing: -0.3,
       );
 
-  static TextStyle get body => _inter(
-        size: 16,
-        weight: FontWeight.w400,
-        color: AppColors.label,
-        height: 1.35,
-        letterSpacing: -0.15,
-      );
-
-  static TextStyle get callout => _inter(
+  static TextStyle get headline => _font(
         size: 14,
-        weight: FontWeight.w400,
-        color: AppColors.labelSecondary,
+        weight: FontWeight.w600,
+        color: AppColors.label,
         height: 1.4,
         letterSpacing: -0.1,
       );
 
-  static TextStyle get footnote => _inter(
+  static TextStyle get body => _font(
+        size: 14,
+        weight: FontWeight.w500,
+        color: AppColors.label,
+        height: 1.5,
+        letterSpacing: -0.1,
+      );
+
+  static TextStyle get callout => _font(
+        size: 14,
+        weight: FontWeight.w400,
+        color: AppColors.labelSecondary,
+        height: 1.5,
+        letterSpacing: 0,
+      );
+
+  static TextStyle get footnote => _font(
         size: 13,
         weight: FontWeight.w400,
         color: AppColors.labelSecondary,
-        height: 1.35,
+        height: 1.4,
+        letterSpacing: 0,
       );
 
-  static TextStyle get caption => _inter(
+  static TextStyle get caption => _font(
         size: 12,
         weight: FontWeight.w500,
         color: AppColors.labelSecondary,
@@ -86,11 +85,11 @@ abstract final class AppTypography {
         letterSpacing: 0.2,
       );
 
-  static TextStyle get tabLabel => _inter(
+  static TextStyle get tabLabel => _font(
         size: 11,
         weight: FontWeight.w500,
         color: AppColors.labelSecondary,
         height: 1.2,
-        letterSpacing: 0,
+        letterSpacing: 0.2,
       );
 }

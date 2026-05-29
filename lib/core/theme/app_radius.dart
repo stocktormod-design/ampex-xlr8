@@ -3,10 +3,10 @@ import 'package:flutter/painting.dart';
 /// Ampex design tokens – avrunding.
 abstract final class AppRadius {
   /// Grouped sections / lister
-  static const double section = 12;
+  static const double section = 16;
 
   /// Knapper, tekstfelter
-  static const double button = 12;
+  static const double button = 14;
 
   /// Chips / badges
   static const double chip = 8;

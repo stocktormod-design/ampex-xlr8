@@ -6,8 +6,11 @@ import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../features/auth/presentation/login_screen.dart';
-import '../../features/orders/presentation/orders_placeholder_screen.dart';
-import '../../features/projects/presentation/projects_placeholder_screen.dart';
+import '../../features/orders/presentation/order_detail_screen.dart';
+import '../../features/orders/presentation/orders_list_screen.dart';
+import '../../features/projects/presentation/drawing_viewer_screen.dart';
+import '../../features/projects/presentation/project_detail_screen.dart';
+import '../../features/projects/presentation/projects_list_screen.dart';
 import '../../features/shell/presentation/app_tab_shell.dart';
 import '../../features/shell/presentation/home_screen.dart';
 import '../auth/auth_repository.dart';
@@ -49,12 +52,12 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: Routes.orders,
-                builder: (context, state) => const OrdersPlaceholderScreen(),
+                builder: (context, state) => const OrdersListScreen(),
                 routes: [
                   GoRoute(
                     path: ':id',
-                    builder: (context, state) => OrdersPlaceholderScreen(
-                      id: state.pathParameters['id'],
+                    builder: (context, state) => OrderDetailScreen(
+                      id: state.pathParameters['id']!,
                     ),
                   ),
                 ],
@@ -65,13 +68,22 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: Routes.projects,
-                builder: (context, state) => const ProjectsPlaceholderScreen(),
+                builder: (context, state) => const ProjectsListScreen(),
                 routes: [
                   GoRoute(
                     path: ':id',
-                    builder: (context, state) => ProjectsPlaceholderScreen(
-                      id: state.pathParameters['id'],
+                    builder: (context, state) => ProjectDetailScreen(
+                      id: state.pathParameters['id']!,
                     ),
+                    routes: [
+                      GoRoute(
+                        path: 'tegning/:drawingId',
+                        builder: (context, state) => DrawingViewerScreen(
+                          projectId: state.pathParameters['id']!,
+                          drawingId: state.pathParameters['drawingId']!,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

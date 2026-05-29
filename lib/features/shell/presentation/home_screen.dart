@@ -1,21 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../core/auth/auth_repository.dart';
-import '../../../core/auth/models/session_context.dart';
 import '../../../core/auth/profile_repository.dart';
-import '../../../core/auth/role_labels.dart';
 import '../../../core/auth/session_providers.dart';
-import '../../../core/routing/routes.dart';
+import '../../../core/theme/app_breakpoints.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
-import '../../../core/widgets/ampex_grouped_section.dart';
-import '../../../core/widgets/ampex_list_row.dart';
-import '../../../core/widgets/ampex_quick_tile.dart';
 import '../../../core/widgets/ampex_scaffold.dart';
+import 'home_dashboard_screen.dart';
+import 'widgets/dashboard_header.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -60,159 +55,19 @@ class HomeScreen extends ConsumerWidget {
             ],
           );
         }
-        return _HomeContent(session: session);
+
+        if (context.hasSideNav) {
+          return HomeDashboardScreen(session: session);
+        }
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const DashboardHeader(),
+            Expanded(child: HomeDashboardScreen(session: session)),
+          ],
+        );
       },
-    );
-  }
-}
-
-class _HomeContent extends ConsumerWidget {
-  const _HomeContent({required this.session});
-
-  final SessionContext session;
-
-  String get _firstName {
-    final name = session.displayName.trim();
-    if (name.isEmpty || name == 'Bruker') return 'der';
-    return name.split(' ').first;
-  }
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final profile = session.profile;
-    final company = session.company;
-
-    return AmpexScaffold(
-      title: '${_greeting()}, $_firstName',
-      slivers: [
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(
-              AppSpacing.screenH,
-              AppSpacing.xs,
-              AppSpacing.screenH,
-              AppSpacing.md,
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    company.name,
-                    style: AppTypography.callout.copyWith(fontSize: 16),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.sm),
-                _RoleBadge(label: roleLabelNorwegian(profile.role)),
-              ],
-            ),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenH),
-            child: Row(
-              children: [
-                Expanded(
-                  child: AmpexQuickTile(
-                    icon: CupertinoIcons.doc_text,
-                    label: 'Ordre',
-                    color: AppColors.label,
-                    onTap: () => context.go(Routes.orders),
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.md),
-                Expanded(
-                  child: AmpexQuickTile(
-                    icon: CupertinoIcons.building_2_fill,
-                    label: 'Prosjekter',
-                    color: AppColors.label,
-                    onTap: () => context.go(Routes.projects),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sectionGap)),
-        SliverToBoxAdapter(
-          child: AmpexGroupedSection(
-            header: 'Mer',
-            children: [
-              AmpexListRow(
-                leading: CupertinoIcons.doc_text,
-                leadingColor: AppColors.labelSecondary,
-                title: 'Alle ordre',
-                subtitle: 'Oppfølging og dokumentasjon',
-                onTap: () => context.go(Routes.orders),
-              ),
-              AmpexListRow(
-                leading: CupertinoIcons.building_2_fill,
-                leadingColor: AppColors.labelSecondary,
-                title: 'Alle prosjekter',
-                subtitle: 'Tegninger, rom og fremdrift',
-                onTap: () => context.go(Routes.projects),
-              ),
-            ],
-          ),
-        ),
-        const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.sectionGap)),
-        SliverToBoxAdapter(
-          child: AmpexGroupedSection(
-            header: 'Konto',
-            footer: 'Deler innlogging med Ampex web.',
-            children: [
-              AmpexListRow(
-                leading: CupertinoIcons.person_crop_circle,
-                leadingColor: AppColors.labelSecondary,
-                title: profile.fullName.isNotEmpty ? profile.fullName : 'Profil',
-                value: roleLabelNorwegian(profile.role),
-                showChevron: false,
-              ),
-              AmpexListRow(
-                title: 'Logg ut',
-                destructive: true,
-                showChevron: false,
-                onTap: () => ref.read(authRepositoryProvider).signOut(),
-              ),
-            ],
-          ),
-        ),
-        // Plass for den flytende glass-tab-baren.
-        const SliverToBoxAdapter(child: SizedBox(height: 96)),
-      ],
-    );
-  }
-
-  String _greeting() {
-    final hour = DateTime.now().hour;
-    if (hour < 6) return 'God natt';
-    if (hour < 11) return 'God morgen';
-    if (hour < 18) return 'God dag';
-    return 'God kveld';
-  }
-}
-
-class _RoleBadge extends StatelessWidget {
-  const _RoleBadge({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
-      decoration: BoxDecoration(
-        color: AppColors.surfaceHighlight,
-        borderRadius: BorderRadius.circular(AppSpacing.xs + 2),
-      ),
-      child: Text(
-        label,
-        style: AppTypography.caption.copyWith(
-          color: AppColors.labelSecondary,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
     );
   }
 }
@@ -231,11 +86,17 @@ class _SessionError extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(CupertinoIcons.person_crop_circle_badge_xmark,
-                size: 48, color: AppColors.labelTertiary),
+            const Icon(
+              CupertinoIcons.person_crop_circle_badge_xmark,
+              size: 48,
+              color: AppColors.labelTertiary,
+            ),
             const SizedBox(height: AppSpacing.md),
-            Text(message,
-                textAlign: TextAlign.center, style: AppTypography.callout),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: AppTypography.callout,
+            ),
             const SizedBox(height: AppSpacing.lg),
             FilledButton(onPressed: onRetry, child: const Text('Prøv igjen')),
           ],
