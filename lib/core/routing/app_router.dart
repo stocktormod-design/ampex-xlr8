@@ -8,6 +8,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../features/auth/presentation/login_screen.dart';
 import '../../features/orders/presentation/orders_placeholder_screen.dart';
 import '../../features/projects/presentation/projects_placeholder_screen.dart';
+import '../../features/shell/presentation/app_tab_shell.dart';
 import '../../features/shell/presentation/home_screen.dart';
 import '../auth/auth_repository.dart';
 import 'routes.dart';
@@ -31,29 +32,52 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: Routes.login,
         builder: (context, state) => const LoginScreen(),
       ),
-      GoRoute(
-        path: Routes.home,
-        builder: (context, state) => const HomeScreen(),
-      ),
-      GoRoute(
-        path: Routes.orders,
-        builder: (context, state) => const OrdersPlaceholderScreen(),
-      ),
-      GoRoute(
-        path: Routes.orderDetail,
-        builder: (context, state) => OrdersPlaceholderScreen(
-          id: state.pathParameters['id'],
-        ),
-      ),
-      GoRoute(
-        path: Routes.projects,
-        builder: (context, state) => const ProjectsPlaceholderScreen(),
-      ),
-      GoRoute(
-        path: Routes.projectDetail,
-        builder: (context, state) => ProjectsPlaceholderScreen(
-          id: state.pathParameters['id'],
-        ),
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return AppTabShell(navigationShell: navigationShell);
+        },
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Routes.home,
+                builder: (context, state) => const HomeScreen(),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Routes.orders,
+                builder: (context, state) => const OrdersPlaceholderScreen(),
+                routes: [
+                  GoRoute(
+                    path: ':id',
+                    builder: (context, state) => OrdersPlaceholderScreen(
+                      id: state.pathParameters['id'],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Routes.projects,
+                builder: (context, state) => const ProjectsPlaceholderScreen(),
+                routes: [
+                  GoRoute(
+                    path: ':id',
+                    builder: (context, state) => ProjectsPlaceholderScreen(
+                      id: state.pathParameters['id'],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     ],
   );

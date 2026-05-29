@@ -1,16 +1,19 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../theme/app_colors.dart';
+import '../theme/app_typography.dart';
 
 final connectivityProvider = StreamProvider<List<ConnectivityResult>>((ref) {
   if (kIsWeb) {
-    // Web: anta online (unngår plugin-problemer i dev).
     return Stream.value([ConnectivityResult.wifi]);
   }
   return Connectivity().onConnectivityChanged;
 });
 
+/// Viser diskret offline-banner øverst når nettforbindelsen er borte.
 class OfflineBanner extends ConsumerWidget {
   const OfflineBanner({super.key, required this.child});
 
@@ -18,39 +21,37 @@ class OfflineBanner extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final connectivity = ref.watch(connectivityProvider);
-    final isOffline = connectivity.maybeWhen(
-      data: (results) =>
-          results.isEmpty ||
-          results.every((r) => r == ConnectivityResult.none),
-      orElse: () => false,
-    );
+    final isOffline = ref.watch(connectivityProvider).maybeWhen(
+          data: (r) => r.isEmpty || r.every((x) => x == ConnectivityResult.none),
+          orElse: () => false,
+        );
 
     return Column(
       children: [
         if (isOffline)
-          Container(
-            width: double.infinity,
-            color: Theme.of(context).colorScheme.errorContainer,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.cloud_off,
-                  size: 18,
-                  color: Theme.of(context).colorScheme.onErrorContainer,
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    'Du er offline. Endringer synkroniseres når du er på nett igjen.',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onErrorContainer,
-                      fontSize: 13,
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: AppColors.destructive.withValues(alpha: 0.10),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                children: [
+                  const Icon(
+                    CupertinoIcons.wifi_slash,
+                    size: 16,
+                    color: AppColors.destructive,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Offline – endringer lagres og synkroniseres når du er på nett.',
+                      style: AppTypography.footnote
+                          .copyWith(color: AppColors.destructive),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         Expanded(child: child),

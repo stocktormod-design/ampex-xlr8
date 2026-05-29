@@ -5,7 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/config/app_config.dart';
 import 'core/config/env.dart';
 import 'core/routing/app_router.dart';
+import 'core/theme/app_colors.dart';
+import 'core/theme/app_typography.dart';
 import 'core/theme/app_theme.dart';
+
 class AmpexApp extends ConsumerWidget {
   const AmpexApp({super.key});
 
@@ -24,6 +27,7 @@ class AmpexApp extends ConsumerWidget {
     return MaterialApp.router(
       title: AppConfig.appName,
       theme: AppTheme.light(),
+      scrollBehavior: _AmpexScrollBehavior(),
       locale: const Locale('nb'),
       supportedLocales: const [Locale('nb')],
       localizationsDelegates: const [
@@ -36,28 +40,35 @@ class AmpexApp extends ConsumerWidget {
   }
 }
 
+/// Bouncing scroll på alle plattformer (iOS-feeling).
+class _AmpexScrollBehavior extends MaterialScrollBehavior {
+  @override
+  ScrollPhysics getScrollPhysics(BuildContext context) {
+    return const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics());
+  }
+}
+
 class _EnvMissingScreen extends StatelessWidget {
   const _EnvMissingScreen();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                AppConfig.appName,
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
+              Text(AppConfig.appName, style: AppTypography.largeTitle),
               const SizedBox(height: 16),
-              const Text(
+              Text(
                 'Mangler Supabase-konfigurasjon.\n\n'
                 '1. cp .env.example .env\n'
                 '2. Fyll inn SUPABASE_URL og SUPABASE_ANON_KEY\n'
-                '3. Stopp appen og kjør flutter run på nytt (ikke bare hot reload)',
+                '3. Stopp appen og kjør flutter run på nytt',
+                style: AppTypography.callout,
               ),
             ],
           ),

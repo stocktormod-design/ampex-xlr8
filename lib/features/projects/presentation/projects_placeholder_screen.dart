@@ -1,9 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/widgets/app_scaffold.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_typography.dart';
+import '../../../core/widgets/ampex_empty_state.dart';
+import '../../../core/widgets/ampex_scaffold.dart';
 
-/// Erstattes med prosjektliste og PDF i fase 1.
+/// Erstattes med prosjektliste i fase 1.
 class ProjectsPlaceholderScreen extends StatelessWidget {
   const ProjectsPlaceholderScreen({super.key, this.id});
 
@@ -11,31 +15,44 @@ class ProjectsPlaceholderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      title: id == null ? 'Prosjekter' : 'Prosjekt',
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.apartment_outlined, size: 48),
-              const SizedBox(height: 16),
-              Text(
-                id == null
-                    ? 'Prosjektliste kommer i fase 1'
-                    : 'Prosjektdetalj og PDF for $id kommer i fase 1',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              const SizedBox(height: 24),
-              FilledButton.tonal(
-                onPressed: () => context.pop(),
-                child: const Text('Tilbake'),
-              ),
-            ],
+    if (id != null) return _ProjectDetailPlaceholder(id: id!);
+
+    return AmpexScaffold(
+      title: 'Prosjekter',
+      slivers: [
+        SliverFillRemaining(
+          child: AmpexEmptyState(
+            icon: CupertinoIcons.building_2_fill,
+            title: 'Ingen prosjekter ennå',
+            body: 'Prosjektliste med tegninger,\nPDF og fremdrift kommer i fase 1.',
           ),
         ),
+      ],
+    );
+  }
+}
+
+class _ProjectDetailPlaceholder extends StatelessWidget {
+  const _ProjectDetailPlaceholder({required this.id});
+
+  final String id;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      appBar: AppBar(
+        backgroundColor: AppColors.background,
+        title: Text('Prosjekter', style: AppTypography.headline),
+        leading: IconButton(
+          icon: const Icon(CupertinoIcons.back),
+          onPressed: () => context.pop(),
+        ),
+      ),
+      body: AmpexEmptyState(
+        icon: CupertinoIcons.building_2_fill,
+        title: 'Prosjektdetalj',
+        body: 'Detaljer for prosjekt $id\nkommer i fase 1.',
       ),
     );
   }

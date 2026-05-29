@@ -7,9 +7,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'bootstrap.dart';
 import 'core/config/app_config.dart';
 import 'core/config/env.dart';
+import 'core/theme/app_colors.dart';
 import 'core/theme/app_theme.dart';
+import 'core/theme/app_typography.dart';
 
-/// Initialiserer Supabase etter at Flutter er oppe (unngår evig HTML «Laster …»).
+/// Initialiserer Supabase etter at Flutter er oppe.
+///
+/// Flutter tegner første frame umiddelbart (HTML-loader fjernes).
+/// Brukeren ser «Kobler til …» i Flutter-UI, ikke evig HTML-tekst.
 class AppStartup extends StatefulWidget {
   const AppStartup({super.key, required this.child});
 
@@ -46,7 +51,6 @@ class _AppStartupState extends State<AppStartup> {
         url: Env.supabaseUrl,
         anonKey: Env.supabaseAnonKey,
         authOptions: FlutterAuthClientOptions(
-          // Unngår at web henter session fra URL ved localhost-dev.
           detectSessionInUri: !kIsWeb,
         ),
       ).timeout(const Duration(seconds: 20));
@@ -58,8 +62,7 @@ class _AppStartupState extends State<AppStartup> {
         _phase = _StartupPhase.error;
         _error =
             'Supabase svarte ikke innen 20 sekunder.\n\n'
-            'Sjekk nett, .env-verdier og at redirect-URL er satt i Supabase Auth '
-            '(http://localhost:8080 for lokal web).';
+            'Sjekk nett og .env-verdier (SUPABASE_URL, SUPABASE_ANON_KEY).';
       });
     } catch (e) {
       if (!mounted) return;
@@ -75,7 +78,7 @@ class _AppStartupState extends State<AppStartup> {
     return switch (_phase) {
       _StartupPhase.loading => MaterialApp(
           theme: AppTheme.light(),
-          home: const _StartupLoadingScreen(),
+          home: const _StartupScreen(),
         ),
       _StartupPhase.error => BootstrapErrorApp(message: _error),
       _StartupPhase.ready => widget.child,
@@ -85,35 +88,30 @@ class _AppStartupState extends State<AppStartup> {
 
 enum _StartupPhase { loading, ready, error }
 
-class _StartupLoadingScreen extends StatelessWidget {
-  const _StartupLoadingScreen();
+class _StartupScreen extends StatelessWidget {
+  const _StartupScreen();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                AppConfig.appName,
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(AppConfig.appName, style: AppTypography.largeTitle),
+            const SizedBox(height: 36),
+            const SizedBox(
+              height: 24,
+              width: 24,
+              child: CircularProgressIndicator(
+                strokeWidth: 2.5,
+                valueColor: AlwaysStoppedAnimation<Color>(AppColors.accent),
               ),
-              const SizedBox(height: 32),
-              const CircularProgressIndicator(),
-              const SizedBox(height: 16),
-              Text(
-                'Kobler til Ampex …',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 16),
+            Text('Kobler til …', style: AppTypography.callout),
+          ],
         ),
       ),
     );

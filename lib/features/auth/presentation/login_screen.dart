@@ -1,8 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../core/auth/auth_messages.dart';
 import '../../../core/auth/auth_repository.dart';
 import '../../../core/config/app_config.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_spacing.dart';
+import '../../../core/theme/app_typography.dart';
+import '../../../core/widgets/ampex_error_banner.dart';
+import '../../../core/widgets/ampex_grouped_section.dart';
+import '../../../core/widgets/ampex_primary_button.dart';
+import '../../../core/widgets/ampex_text_field.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -24,9 +33,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _emailFocus.requestFocus();
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) => _emailFocus.requestFocus());
   }
 
   @override
@@ -40,15 +47,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() {
-      _loading = true;
-      _error = null;
-    });
+    setState(() { _loading = true; _error = null; });
     try {
       await ref.read(authRepositoryProvider).signInWithEmail(
-            email: _emailController.text.trim(),
-            password: _passwordController.text,
-          );
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      );
     } catch (e) {
       setState(() => _error = authErrorMessageNorwegian(e));
     } finally {
@@ -66,11 +70,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     try {
       await ref.read(authRepositoryProvider).resetPasswordForEmail(email);
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Vi har sendt en e-post med lenke for å tilbakestille passordet.',
+      showCupertinoDialog<void>(
+        context: context,
+        builder: (_) => CupertinoAlertDialog(
+          title: const Text('E-post sendt'),
+          content: const Text(
+            'Sjekk innboksen din for en lenke til å tilbakestille passordet.',
           ),
+          actions: [
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
         ),
       );
     } catch (e) {
@@ -80,156 +93,116 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return Scaffold(
-      body: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              colorScheme.surface,
-              colorScheme.surfaceContainerHighest.withValues(alpha: 0.35),
-            ],
-          ),
-        ),
-        child: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 400),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const SizedBox(height: 24),
-                      Text(
-                        AppConfig.appName,
-                        style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: -0.5,
-                            ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Logg inn for å fortsette',
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: colorScheme.onSurfaceVariant,
-                            ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 40),
-                      TextFormField(
-                        controller: _emailController,
-                        focusNode: _emailFocus,
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                        autocorrect: false,
-                        autofillHints: const [AutofillHints.email],
-                        decoration: const InputDecoration(
-                          labelText: 'E-post',
-                          prefixIcon: Icon(Icons.mail_outline),
+      backgroundColor: AppColors.background,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.screenH,
+              vertical: AppSpacing.lg,
+            ),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 420),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(height: AppSpacing.xl),
+
+                    // ── Merkevare ────────────────────────────────────────────
+                    Text(
+                      AppConfig.appName,
+                      style: AppTypography.largeTitle,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: AppSpacing.sm),
+                    Text(
+                      'Logg inn for å fortsette',
+                      style: AppTypography.callout,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: AppSpacing.xxl - 4),
+
+                    // ── Feltgruppe ───────────────────────────────────────────
+                    AmpexGroupedSection(
+                      margin: EdgeInsets.zero,
+                      dividerIndent: AppSpacing.rowH,
+                      children: [
+                        AmpexTextField(
+                          controller: _emailController,
+                          focusNode: _emailFocus,
+                          hint: 'E-post',
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          autocorrect: false,
+                          autofillHints: const [AutofillHints.email],
+                          onSubmitted: (_) => _passwordFocus.requestFocus(),
+                          validator: (v) {
+                            if (v == null || v.trim().isEmpty) return 'Skriv inn e-post';
+                            if (!v.contains('@')) return 'Ugyldig e-postadresse';
+                            return null;
+                          },
                         ),
-                        onFieldSubmitted: (_) => _passwordFocus.requestFocus(),
-                        validator: (v) {
-                          if (v == null || v.trim().isEmpty) {
-                            return 'Skriv inn e-post';
-                          }
-                          if (!v.contains('@')) return 'Ugyldig e-postadresse';
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: _passwordController,
-                        focusNode: _passwordFocus,
-                        obscureText: _obscurePassword,
-                        textInputAction: TextInputAction.done,
-                        autofillHints: const [AutofillHints.password],
-                        decoration: InputDecoration(
-                          labelText: 'Passord',
-                          prefixIcon: const Icon(Icons.lock_outline),
-                          suffixIcon: IconButton(
-                            tooltip: _obscurePassword ? 'Vis passord' : 'Skjul passord',
-                            onPressed: () {
-                              setState(() => _obscurePassword = !_obscurePassword);
-                            },
+                        AmpexTextField(
+                          controller: _passwordController,
+                          focusNode: _passwordFocus,
+                          hint: 'Passord',
+                          obscureText: _obscurePassword,
+                          textInputAction: TextInputAction.done,
+                          autofillHints: const [AutofillHints.password],
+                          onSubmitted: (_) => _submit(),
+                          suffix: IconButton(
                             icon: Icon(
                               _obscurePassword
-                                  ? Icons.visibility_outlined
-                                  : Icons.visibility_off_outlined,
+                                  ? CupertinoIcons.eye
+                                  : CupertinoIcons.eye_slash,
+                              size: 20,
+                              color: AppColors.labelSecondary,
                             ),
+                            onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
                           ),
+                          validator: (v) {
+                            if (v == null || v.isEmpty) return 'Skriv inn passord';
+                            return null;
+                          },
                         ),
-                        onFieldSubmitted: (_) => _submit(),
-                        validator: (v) {
-                          if (v == null || v.isEmpty) return 'Skriv inn passord';
-                          return null;
-                        },
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: _loading ? null : _forgotPassword,
-                          child: const Text('Glemt passord?'),
-                        ),
-                      ),
-                      if (_error != null) ...[
-                        Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: colorScheme.errorContainer,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.error_outline,
-                                color: colorScheme.onErrorContainer,
-                                size: 20,
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  _error!,
-                                  style: TextStyle(
-                                    color: colorScheme.onErrorContainer,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 16),
                       ],
-                      const SizedBox(height: 8),
-                      FilledButton(
-                        onPressed: _loading ? null : _submit,
-                        style: FilledButton.styleFrom(
-                          minimumSize: const Size.fromHeight(48),
+                    ),
+
+                    // ── Glemt passord ────────────────────────────────────────
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: _loading ? null : _forgotPassword,
+                        style: TextButton.styleFrom(
+                          foregroundColor: AppColors.accent,
+                          minimumSize: const Size(0, AppSpacing.minTouch),
+                          textStyle: AppTypography.callout,
                         ),
-                        child: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 200),
-                          child: _loading
-                              ? const SizedBox(
-                                  key: ValueKey('loading'),
-                                  height: 22,
-                                  width: 22,
-                                  child: CircularProgressIndicator(strokeWidth: 2),
-                                )
-                              : const Text(
-                                  key: ValueKey('label'),
-                                  'Logg inn',
-                                ),
-                        ),
+                        child: const Text('Glemt passord?'),
                       ),
-                    ],
-                  ),
+                    ),
+
+                    // ── Feilmelding ──────────────────────────────────────────
+                    if (_error != null) ...[
+                      const SizedBox(height: AppSpacing.sm),
+                      AmpexErrorBanner(message: _error!),
+                      const SizedBox(height: AppSpacing.sm),
+                    ] else
+                      const SizedBox(height: AppSpacing.md),
+
+                    // ── Primærknapp ──────────────────────────────────────────
+                    AmpexPrimaryButton(
+                      label: 'Logg inn',
+                      onPressed: _submit,
+                      isLoading: _loading,
+                    ),
+
+                    const SizedBox(height: AppSpacing.xl),
+                  ],
                 ),
               ),
             ),
