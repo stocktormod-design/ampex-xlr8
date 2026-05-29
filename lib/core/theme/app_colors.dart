@@ -2,72 +2,63 @@ import 'package:flutter/cupertino.dart';
 
 /// Ampex design tokens – farger (én sannhet for iOS, Android og web).
 ///
-/// Retning: iOS-struktur + Spotify-aktig glassmorfisme.
-/// – Mykt gradient-bakteppe gir dybde bak frostede glassflater.
-/// – Glassflater = halvgjennomsiktig hvit + blur + hårfin kant.
-/// – Én accent med svak gradient, brukt på primærhandlinger.
+/// Retning: Spotify Dark Mode. Ekte premium og seamless.
+/// – Kullsvart bakgrunn for dybde (`#000000` eller `#121212`).
+/// – Rene, svake overflater uten unødvendige kanter og farge-blobs.
+/// – Én tydelig accent-farge (Spotify-grønn/Ampex-blå), alt annet er nøytralt.
 abstract final class AppColors {
-  // ── Gradient-bakteppe (det glasset «blurrer») ──────────────────────────────
-  static const backdropTop = Color(0xFFEEF2FB);
-  static const backdropMid = Color(0xFFF4F1FB);
-  static const backdropBottom = Color(0xFFEAF3F9);
+  // ── Bakgrunn (Dyp mørk) ─────────────────────────────────────────────────────
+  /// Hovedbakgrunn (Helt svart for OLED-skjermer gir ekstrem dybde)
+  static const background = Color(0xFF121212); // Spotify hovedbakgrunn
 
-  /// Fargede «blobs» som gir liv bak glasset.
-  static const blobBlue = Color(0x330A66C2);
-  static const blobViolet = Color(0x2A7C5CFF);
-  static const blobCyan = Color(0x2618B5C9);
+  /// Overflate nivå 1 (Kort, grouped sections)
+  static const surface = Color(0xFF181818); // Spotify overflate
 
-  /// Solid fallback-bakgrunn (når blur ikke er ønskelig).
-  static const background = Color(0xFFEFF1F8);
+  /// Overflate nivå 2 (Tab bar, nav bar, quick tiles)
+  static const surfaceElevated = Color(0xFF282828); // Enda litt lysere
+  
+  /// Overflate nivå 3 (Søkefelt, myke knapper)
+  static const surfaceHighlight = Color(0xFF333333);
 
-  // ── Glassflater ─────────────────────────────────────────────────────────────
-  /// Frostet kort/seksjon.
-  static const glassSurface = Color(0xCCFFFFFF);
+  // ── Tekst (Høy kontrast) ───────────────────────────────────────────────────
+  static const label = Color(0xFFFFFFFF);
+  static const labelSecondary = Color(0xFFA7A7A7); // Spotify grå
+  static const labelTertiary = Color(0xFF727272);
+  static const labelPlaceholder = Color(0xFF535353);
 
-  /// Sterkere glass (nav/tab-bar).
-  static const glassBar = Color(0xE6FFFFFF);
-
-  /// Hårfin lyskant øverst på glass.
-  static const glassBorder = Color(0x4DFFFFFF);
-
-  /// Solid hvit der vi trenger ugjennomsiktig flate.
-  static const surface = Color(0xFFFFFFFF);
-  static const surfaceElevated = Color(0xFFFAFAFC);
-
-  // ── Tekst ──────────────────────────────────────────────────────────────────
-  static const label = Color(0xFF14151A);
-  static const labelSecondary = Color(0xFF60636E);
-  static const labelTertiary = Color(0xFF9CA0AC);
-  static const labelPlaceholder = Color(0xFFB8BCC6);
-
-  // ── Accent ───────────────────────────────────────────────────────────────────
-  static const accent = Color(0xFF0A66C2);
-  static const accentBright = Color(0xFF2E7BD6);
-  static const accentSoft = Color(0xFFE6EFFB);
+  // ── Accent (Én tydelig handling) ────────────────────────────────────────────
+  /// Vi bruker en premium "elektrisk blå" som føles ren i dark mode.
+  static const accent = Color(0xFF3377FF); 
+  static const accentSoft = Color(0x263377FF);
 
   static const LinearGradient accentGradient = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
-    colors: [accentBright, accent],
+    colors: [Color(0xFF4D8CFF), accent],
   );
 
   // ── Semantiske ─────────────────────────────────────────────────────────────
-  static const destructive = Color(0xFFE5484D);
-  static const success = Color(0xFF2D7A4F);
-  static const warning = Color(0xFFE8A317);
+  static const destructive = Color(0xFFE91429); // Skarpere rød
+  static const success = Color(0xFF1ED760); // Spotify-grønn
+  static const warning = Color(0xFFFFA42B);
 
-  // ── Skillelinjer ──────────────────────────────────────────────────────────
-  static const separator = Color(0x14000000);
-  static const separatorOpaque = Color(0xFFD8DAE2);
+  // ── Skillelinjer (Svært subtile i dark mode) ───────────────────────────────
+  static const separator = Color(0x1AFFFFFF); // Veldig svak hvit
+  static const separatorOpaque = Color(0xFF2A2A2A);
 
   // ── Interaktive states ────────────────────────────────────────────────────
-  static const pressed = Color(0x0F000000);
-  static const selected = Color(0x140A66C2);
+  static const pressed = Color(0x1AFFFFFF);
+  static const selected = Color(0x1A3377FF);
 
-  // ── Bakteppe-gradient (helper) ──────────────────────────────────────────────
+  // ── Glassflater (Tilpasset mørk modus) ──────────────────────────────────────
+  static const glassSurface = Color(0xFF181818); // Fast overflate i dark mode (ikke frostet for bedre ytelse og Spotify-look)
+  static const glassBar = Color(0xF2121212); // Kraftig frostet Spotify-bar
+  static const glassBorder = Color(0x1AFFFFFF); // Veldig svak hvit kant
+  
+  // ── Bakteppe-gradient (helper for hero/login skjermer) ─────────────────────────
   static const LinearGradient backdropGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: [backdropTop, backdropMid, backdropBottom],
+    colors: [Color(0xFF282828), Color(0xFF121212)],
   );
 }

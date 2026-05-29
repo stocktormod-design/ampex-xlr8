@@ -7,13 +7,16 @@ import 'app_radius.dart';
 import 'app_spacing.dart';
 import 'app_typography.dart';
 
-/// Ampex designsystem – lys modus.
+/// Ampex designsystem – DARK MODUS.
 ///
 /// Én ThemeData brukt på alle plattformer (iOS, Android, web).
-/// Cupertino-widgets arver farger via [cupertinoOverrideTheme].
 class AppTheme {
   static ThemeData light() {
-    const cs = ColorScheme.light(
+    return dark(); // Tvinger dyp Spotify-tema overalt, uansett systeminnstilling.
+  }
+
+  static ThemeData dark() {
+    const cs = ColorScheme.dark(
       primary: AppColors.accent,
       onPrimary: Colors.white,
       surface: AppColors.surface,
@@ -23,8 +26,8 @@ class AppTheme {
       outlineVariant: AppColors.separatorOpaque,
       error: AppColors.destructive,
       onError: Colors.white,
-      surfaceContainerHighest: AppColors.background,
-      surfaceContainerLow: AppColors.accentSoft,
+      surfaceContainerHighest: AppColors.surfaceElevated,
+      surfaceContainerLow: AppColors.surfaceHighlight,
     );
 
     return ThemeData(
@@ -37,10 +40,10 @@ class AppTheme {
 
       // ── Cupertino overlay ───────────────────────────────────────────────────
       cupertinoOverrideTheme: const CupertinoThemeData(
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
         primaryColor: AppColors.accent,
         scaffoldBackgroundColor: AppColors.background,
-        barBackgroundColor: AppColors.surfaceElevated,
+        barBackgroundColor: AppColors.background,
       ),
 
       // ── AppBar ──────────────────────────────────────────────────────────────
@@ -50,9 +53,9 @@ class AppTheme {
         backgroundColor: AppColors.background,
         foregroundColor: AppColors.label,
         titleTextStyle: AppTypography.headline,
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarBrightness: Brightness.light,
-          statusBarIconBrightness: Brightness.dark,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarBrightness: Brightness.dark,
+          statusBarIconBrightness: Brightness.light,
         ),
       ),
 
@@ -83,7 +86,7 @@ class AppTheme {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.accent,
+          foregroundColor: AppColors.label, // Hvit i mørkt tema for renhet
           textStyle: AppTypography.body,
           minimumSize: const Size(0, AppSpacing.minTouch),
         ),
@@ -92,7 +95,7 @@ class AppTheme {
       // ── Input ───────────────────────────────────────────────────────────────
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.surface,
+        fillColor: AppColors.surfaceHighlight, // Viser inputfeltet i mørket
         contentPadding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.rowH,
           vertical: AppSpacing.rowV,
@@ -107,7 +110,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: AppRadius.sectionBorder,
-          borderSide: const BorderSide(color: AppColors.accent, width: 1.5),
+          borderSide: const BorderSide(color: AppColors.labelSecondary, width: 1),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: AppRadius.sectionBorder,
@@ -130,24 +133,14 @@ class AppTheme {
 
       // ── BottomNavigation ────────────────────────────────────────────────────
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: AppColors.surfaceElevated,
-        selectedItemColor: AppColors.accent,
+        backgroundColor: AppColors.background,
+        selectedItemColor: AppColors.label,
         unselectedItemColor: AppColors.labelSecondary,
         selectedLabelStyle: AppTypography.tabLabel,
         unselectedLabelStyle: AppTypography.tabLabel,
         elevation: 0,
         type: BottomNavigationBarType.fixed,
       ),
-    );
-  }
-
-  /// CupertinoThemeData for rene Cupertino-komponenter.
-  static CupertinoThemeData cupertino() {
-    return const CupertinoThemeData(
-      brightness: Brightness.light,
-      primaryColor: AppColors.accent,
-      scaffoldBackgroundColor: AppColors.background,
-      barBackgroundColor: Color(0xF2F9F9FC),
     );
   }
 }

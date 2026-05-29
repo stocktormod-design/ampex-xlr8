@@ -2,9 +2,9 @@
 
 > **North star:** clean · seamless · intuitive · efficient — «nothing else compares»
 >
-> **Referanser:** Spotify (flyt, hierarki, ro), Airbnb (klarhet, luft, tillit), iOS HIG (gruppering, store titler, tydelig primærhandling)
+> **Referanser:** Spotify Dark Mode (flyt, hierarki, ro, dyp bakgrunn), Airbnb (klarhet, luft, tillit), iOS HIG (gruppering, store titler, tydelig primærhandling)
 >
-> **Én standard** — samme tokens, samme widgets, alle plattformer (iOS, Android, web).
+> **Én standard** — Spotify Dark Mode tvinges på tvers av alle plattformer (iOS, Android, web) for et ekte premium-uttrykk.
 
 ---
 
@@ -12,23 +12,24 @@
 
 | Token | Verdi | Bruk |
 |-------|-------|------|
-| `background` | `#F2F2F7` | Sidebakgrunn |
-| `surface` | `#FFFFFF` | Seksjoner / grouped sections |
-| `surfaceElevated` | `#FAFAFC` | Tab bar, nav bar |
-| `label` | `#0D0D0D` | Primær tekst |
-| `labelSecondary` | `#6B6B70` | Sekundær tekst, ikoner |
-| `labelTertiary` | `#AEAEB2` | Placeholder, chevrons |
-| `labelPlaceholder` | `#C7C7CC` | Textfelt-hint |
-| `accent` | `#0A66C2` | Knapper, aktiv tab, lenker |
-| `accentSoft` | `#E8F0FB` | Badge-bakgrunn, selected state |
-| `separator` | `#E5E5EA` | Tynne skillelinjer (0.5pt) |
-| `destructive` | `#D93025` | Logg ut, slett, feil |
-| `success` | `#1E8A4C` | Godkjent, synkronisert |
-| `warning` | `#F59E0B` | Advarsel |
+| `background` | `#000000` | Sidebakgrunn (Helt sort for dybde/OLED) |
+| `surface` | `#121212` | Seksjoner / grouped sections (Spotify-kort) |
+| `surfaceElevated` | `#181818` | Tab bar, nav bar |
+| `label` | `#FFFFFF` | Primær tekst |
+| `labelSecondary` | `#A7A7A7` | Sekundær tekst, ikoner |
+| `labelTertiary` | `#727272` | Placeholder, chevrons |
+| `labelPlaceholder` | `#535353` | Textfelt-hint |
+| `accent` | `#3377FF` | Elektrisk blå primærknapp, lenker |
+| `accentSoft` | `#263377FF` | Badge-bakgrunn, selected state |
+| `separator` | `#1AFFFFFF` | Tynne, svært subtile skillelinjer |
+| `destructive` | `#E91429` | Logg ut, slett, feil |
+| `success` | `#1ED760` | Godkjent, synkronisert |
+| `warning` | `#FFA42B` | Advarsel |
 
 **Regler:**
+- Dark mode er låst. Appen tilpasser seg ikke lys/mørk modus.
 - Accent brukes **sparsomt** – knapper, aktiv tilstand, lenker.  
-- Aldri gradient. Aldri solid blå bakgrunn.  
+- Aldri fargede bakgrunner på kort. De forblir `surface`.
 - Feil vises inline (`AmpexErrorBanner`), ikke SnackBar/Toast.
 
 ---

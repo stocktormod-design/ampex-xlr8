@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/widgets/ampex_glass.dart';
 
 /// Frostet glass-tab-bar. Innhold scroller under (extendBody).
 class AppTabShell extends StatelessWidget {
@@ -36,7 +37,7 @@ class AppTabShell extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       extendBody: true,
-      body: navigationShell,
+      body: AmpexBackdrop(child: navigationShell),
       bottomNavigationBar: _GlassTabBar(
         currentIndex: navigationShell.currentIndex,
         onTap: (i) => navigationShell.goBranch(
