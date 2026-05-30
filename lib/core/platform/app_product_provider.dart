@@ -1,12 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../widgets/mobile_preview_frame.dart';
 import 'app_product.dart';
 
-/// Tving Mobile/Desktop i dev (web). `null` = automatisk etter vindusbredde.
+/// Tving Mobile/Desktop i dev. `null` = automatisk etter vindusbredde.
 final devProductOverrideProvider = StateProvider<AmpexProduct?>((ref) => null);
 
 final _viewportSizeProvider = StateProvider<Size>((ref) => const Size(1280, 800));
@@ -18,7 +17,6 @@ final appProductProvider = Provider<AmpexProduct>((ref) {
   return AmpexProductResolver.resolve(size.width);
 });
 
-/// Gjeldende produkt for hele treet (brukes av [AmpexProductContext]).
 class AmpexProductScope extends InheritedWidget {
   const AmpexProductScope({
     super.key,
@@ -46,9 +44,12 @@ extension AmpexProductContext on BuildContext {
   bool get isAmpexMobile => ampexProduct == AmpexProduct.mobile;
 
   bool get isAmpexDesktop => ampexProduct == AmpexProduct.desktop;
+
+  /// Mobile på web/desktop (iPhone-ramme), ikke ekte telefon.
+  bool get isSimulatedAmpexMobile =>
+      isAmpexMobile && !AmpexProductResolver.isNativeMobile;
 }
 
-/// Binder viewport + produkt + dev-switcher på web.
 class AmpexProductBinder extends ConsumerWidget {
   const AmpexProductBinder({super.key, required this.child});
 
@@ -56,42 +57,39 @@ class AmpexProductBinder extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final size = MediaQuery.sizeOf(context);
+    final windowSize = MediaQuery.sizeOf(context);
     final notifier = ref.read(_viewportSizeProvider.notifier);
-
     final product = ref.watch(appProductProvider);
-    final showDevBar = kDebugMode || kIsWeb;
     final simulatePhone = MobilePreviewFrame.shouldSimulate(product);
 
-    if (simulatePhone) {
+    final viewportSize = simulatePhone
+        ? const Size(
+            MobilePreviewFrame.phoneWidth,
+            MobilePreviewFrame.phoneHeight,
+          )
+        : windowSize;
+
+    if (ref.read(_viewportSizeProvider) != viewportSize) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        final target = const Size(
-          MobilePreviewFrame.phoneWidth,
-          MobilePreviewFrame.phoneHeight,
-        );
-        if (ref.read(_viewportSizeProvider) != target) {
-          notifier.state = target;
-        }
-      });
-    } else if (ref.read(_viewportSizeProvider) != size) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        notifier.state = size;
+        notifier.state = viewportSize;
       });
     }
 
-    final appChild = simulatePhone
-        ? MobilePreviewFrame(child: child)
-        : child;
+    Widget app = child;
+    if (simulatePhone) {
+      app = MobilePreviewFrame(child: child);
+    }
 
     return AmpexProductScope(
       product: product,
       child: Stack(
+        clipBehavior: Clip.none,
         fit: StackFit.expand,
         children: [
-          appChild,
-          if (showDevBar)
+          app,
+          if (!AmpexProductResolver.isNativeMobile)
             Positioned(
-              top: MediaQuery.paddingOf(context).top + 4,
+              top: 8,
               left: 0,
               right: 0,
               child: Center(child: _DevProductBar(product: product)),
@@ -112,7 +110,7 @@ class _DevProductBar extends ConsumerWidget {
     final override = ref.watch(devProductOverrideProvider);
 
     return Material(
-      elevation: 4,
+      elevation: 6,
       borderRadius: BorderRadius.circular(24),
       color: const Color(0xF0111827),
       child: Padding(
@@ -143,7 +141,9 @@ class _DevProductBar extends ConsumerWidget {
             ),
             const SizedBox(width: 8),
             Text(
-              'Aktiv: ${product == AmpexProduct.mobile ? 'Mobile' : 'Desktop'}',
+              MobilePreviewFrame.shouldSimulate(product)
+                  ? '390×844'
+                  : 'Aktiv: ${product == AmpexProduct.mobile ? 'Mobile' : 'Desktop'}',
               style: const TextStyle(
                 color: Color(0xFF9CA3AF),
                 fontSize: 11,

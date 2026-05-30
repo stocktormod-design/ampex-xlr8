@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../platform/app_product_provider.dart';
 import '../theme/app_breakpoints.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
@@ -38,23 +39,17 @@ class AmpexScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final topPad = MediaQuery.paddingOf(context).top;
     final isMobile = context.isMobile;
+    final simPhone = context.isSimulatedAmpexMobile;
     final hPad = isMobile ? AppSpacing.screenH : AppSpacing.xl;
 
-    return AmpexBackdrop(
-      child: OfflineBanner(
-        child: Stack(
-          children: [
-            Center(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: maxContentWidth),
-                child: _scrollBody(
+    final scrollContent = _scrollBody(
                   topPad: topPad,
                   slivers: [
                     SliverToBoxAdapter(
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(
                           hPad,
-                          topPad + (isMobile ? 52 : 28),
+                          topPad + (simPhone ? 16 : (isMobile ? 52 : 28)),
                           hPad,
                           AppSpacing.md,
                         ),
@@ -117,10 +112,22 @@ class AmpexScaffold extends StatelessWidget {
                       child: SizedBox(height: isMobile ? 96 : AppSpacing.xl),
                     ),
                   ],
+                );
+
+    return AmpexBackdrop(
+      child: OfflineBanner(
+        child: Stack(
+          children: [
+            if (simPhone)
+              scrollContent
+            else
+              Center(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: maxContentWidth),
+                  child: scrollContent,
                 ),
               ),
-            ),
-            if (topPad > 0)
+            if (topPad > 0 && !simPhone)
               Positioned(
                 top: 0,
                 left: 0,
