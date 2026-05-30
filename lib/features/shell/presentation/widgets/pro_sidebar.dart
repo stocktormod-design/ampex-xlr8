@@ -33,11 +33,13 @@ class ProSidebar extends ConsumerWidget {
     required this.items,
     required this.activeBranchIndex,
     required this.onSelectBranch,
+    this.collapsed = false,
   });
 
   final List<ProNavItem> items;
   final int activeBranchIndex;
   final ValueChanged<int> onSelectBranch;
+  final bool collapsed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,8 +49,7 @@ class ProSidebar extends ConsumerWidget {
         ? roleLabelNorwegian(session.profile.role)
         : '';
 
-    return Container(
-      width: 270,
+    return DecoratedBox(
       decoration: const BoxDecoration(
         color: AppColors.sidebarBackground,
         border: Border(right: BorderSide(color: AppColors.border)),
@@ -57,22 +58,31 @@ class ProSidebar extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(24, 28, 24, 22),
+            padding: EdgeInsets.fromLTRB(
+              collapsed ? 12 : 24,
+              28,
+              collapsed ? 12 : 24,
+              22,
+            ),
             child: Row(
+              mainAxisAlignment:
+                  collapsed ? MainAxisAlignment.center : MainAxisAlignment.start,
               children: [
                 const Icon(
                   CupertinoIcons.bolt_fill,
                   color: AppColors.accent,
                   size: 24,
                 ),
-                const SizedBox(width: 10),
-                Text(
-                  AppConfig.appName,
-                  style: AppTypography.title1.copyWith(
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: -0.7,
+                if (!collapsed) ...[
+                  const SizedBox(width: 10),
+                  Text(
+                    AppConfig.appName,
+                    style: AppTypography.title1.copyWith(
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.7,
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
           ),
@@ -83,6 +93,7 @@ class ProSidebar extends ConsumerWidget {
                 for (final item in items)
                   _SidebarItem(
                     item: item,
+                    collapsed: collapsed,
                     active: item.branchIndex == activeBranchIndex,
                     onTap: () {
                       if (item.comingSoon || item.branchIndex == null) {
@@ -101,62 +112,73 @@ class ProSidebar extends ConsumerWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.border),
-              ),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundColor: AppColors.surfaceHighlight,
-                    child: Text(
-                      _initials(name),
-                      style: AppTypography.caption.copyWith(
-                        fontWeight: FontWeight.w700,
+          if (!collapsed)
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceHighlight,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppColors.border),
+                ),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor: AppColors.surface,
+                      child: Text(
+                        _initials(name),
+                        style: AppTypography.caption.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          name,
-                          style: AppTypography.footnote.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.label,
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            name,
+                            style: AppTypography.footnote.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.label,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Text(
-                          role,
-                          style: AppTypography.caption,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                          Text(
+                            role,
+                            style: AppTypography.caption,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () => ref.read(authRepositoryProvider).signOut(),
-                    icon: const Icon(
-                      CupertinoIcons.chevron_right,
-                      size: 16,
-                      color: AppColors.labelSecondary,
+                    IconButton(
+                      onPressed: () =>
+                          ref.read(authRepositoryProvider).signOut(),
+                      icon: const Icon(
+                        CupertinoIcons.square_arrow_right,
+                        size: 18,
+                        color: AppColors.labelSecondary,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+              ),
+            )
+          else
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: IconButton(
+                tooltip: 'Logg ut',
+                onPressed: () => ref.read(authRepositoryProvider).signOut(),
+                icon: const Icon(CupertinoIcons.square_arrow_right),
               ),
             ),
-          ),
         ],
       ),
     );
@@ -174,17 +196,19 @@ class ProSidebar extends ConsumerWidget {
 class _SidebarItem extends StatelessWidget {
   const _SidebarItem({
     required this.item,
+    required this.collapsed,
     required this.active,
     required this.onTap,
   });
 
   final ProNavItem item;
+  final bool collapsed;
   final bool active;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final color = active ? AppColors.accentSecondary : AppColors.labelSecondary;
+    final color = active ? AppColors.label : AppColors.labelSecondary;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
@@ -195,11 +219,31 @@ class _SidebarItem extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(10),
           hoverColor: AppColors.hover,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+          child: IntrinsicHeight(
             child: Row(
               children: [
+                if (active)
+                  Container(
+                    width: 3,
+                    margin: const EdgeInsets.symmetric(vertical: 6),
+                    decoration: BoxDecoration(
+                      color: AppColors.accent,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: collapsed ? 8 : 14,
+                      vertical: 13,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: collapsed
+                          ? MainAxisAlignment.center
+                          : MainAxisAlignment.start,
+                      children: [
                 Icon(item.icon, size: 20, color: color),
+                if (!collapsed) ...[
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
@@ -210,7 +254,8 @@ class _SidebarItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (item.badge != null)
+                ],
+                if (!collapsed && item.badge != null)
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 8,
@@ -229,7 +274,7 @@ class _SidebarItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                if (item.dotColor != null)
+                if (!collapsed && item.dotColor != null)
                   Container(
                     width: 8,
                     height: 8,
@@ -238,6 +283,10 @@ class _SidebarItem extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                   ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

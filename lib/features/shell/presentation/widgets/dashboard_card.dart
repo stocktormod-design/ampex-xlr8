@@ -14,6 +14,7 @@ class DashboardCard extends StatelessWidget {
     this.header,
     this.trailingLink,
     this.onTrailingTap,
+    this.badge,
   });
 
   final Widget child;
@@ -21,6 +22,7 @@ class DashboardCard extends StatelessWidget {
   final String? header;
   final String? trailingLink;
   final VoidCallback? onTrailingTap;
+  final String? badge;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,27 @@ class DashboardCard extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
+                  if (badge != null) ...[
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.accent,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        badge!,
+                        style: AppTypography.caption.copyWith(
+                          color: AppColors.onAccent,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ),
+                  ],
                   const Spacer(),
                   if (trailingLink != null)
                     GestureDetector(

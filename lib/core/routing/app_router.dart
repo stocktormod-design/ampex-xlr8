@@ -8,18 +8,22 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../features/auth/presentation/login_screen.dart';
 import '../../features/orders/presentation/order_detail_screen.dart';
 import '../../features/orders/presentation/orders_list_screen.dart';
-import '../../features/projects/presentation/drawing_viewer_screen.dart';
-import '../../features/projects/presentation/project_detail_screen.dart';
-import '../../features/projects/presentation/projects_list_screen.dart';
-import '../../features/shell/presentation/app_tab_shell.dart';
+import '../../features/projects/presentation/adaptive_drawing_viewer_screen.dart';
+import '../../features/projects/presentation/adaptive_project_detail_screen.dart';
+import '../../features/projects/presentation/adaptive_projects_list_screen.dart';
+import '../../features/projects/shared/presentation/adaptive_projects_shell.dart';
+import '../../features/shell/shared/presentation/adaptive_app_shell.dart';
 import '../../features/shell/presentation/home_screen.dart';
 import '../auth/auth_repository.dart';
 import 'routes.dart';
+
+final rootNavigatorKey = GlobalKey<NavigatorState>();
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authRepo = ref.watch(authRepositoryProvider);
 
   return GoRouter(
+    navigatorKey: rootNavigatorKey,
     initialLocation: Routes.home,
     refreshListenable: _AuthRefreshListenable(authRepo),
     redirect: (context, state) {
@@ -37,7 +41,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
-          return AppTabShell(navigationShell: navigationShell);
+          return AdaptiveAppShell(navigationShell: navigationShell);
         },
         branches: [
           StatefulShellBranch(
@@ -66,22 +70,46 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           StatefulShellBranch(
             routes: [
-              GoRoute(
-                path: Routes.projects,
-                builder: (context, state) => const ProjectsListScreen(),
+              ShellRoute(
+                builder: (context, state, child) =>
+                    AdaptiveProjectsShell(child: child),
                 routes: [
                   GoRoute(
-                    path: ':id',
-                    builder: (context, state) => ProjectDetailScreen(
-                      id: state.pathParameters['id']!,
-                    ),
+                    path: Routes.projects,
+                    builder: (context, state) =>
+                        const AdaptiveProjectsListScreen(),
                     routes: [
                       GoRoute(
-                        path: 'tegning/:drawingId',
-                        builder: (context, state) => DrawingViewerScreen(
-                          projectId: state.pathParameters['id']!,
-                          drawingId: state.pathParameters['drawingId']!,
+                        path: ':id',
+                        builder: (context, state) =>
+                            AdaptiveProjectDetailScreen(
+                          id: state.pathParameters['id']!,
                         ),
+                        routes: [
+                          GoRoute(
+                            path: 'tegning/:drawingId',
+                            parentNavigatorKey: rootNavigatorKey,
+                            pageBuilder: (context, state) =>
+                                CustomTransitionPage<void>(
+                              key: state.pageKey,
+                              fullscreenDialog: true,
+                              transitionDuration:
+                                  const Duration(milliseconds: 200),
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                              child: AdaptiveDrawingViewerScreen(
+                                projectId: state.pathParameters['id']!,
+                                drawingId:
+                                    state.pathParameters['drawingId']!,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

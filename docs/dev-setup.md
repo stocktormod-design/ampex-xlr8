@@ -56,3 +56,21 @@ Hvis du allerede har innlogging på Ampex web, kan du bruke **samme e-post og pa
 | «Fant ingen brukerprofil» | Mangler rad i `profiles` — kjør SQL over |
 | «Feil e-post eller passord» | Sjekk Auth-bruker eller passord |
 | Tomt firmanavn | `company_id` peker ikke på gyldig `companies`-rad |
+
+## Se både Mobile og Desktop (web)
+
+Øverst i appen vises en **dev-bar**: `Auto` | `Mobile` | `Desktop`.
+
+| Modus | Hva du ser |
+|-------|------------|
+| **Auto** | Mobile når vinduet er smalt (&lt;768px), Desktop når det er bredt |
+| **Mobile** | iPhone-ramme (390px) midt på skjermen, bottom nav, felt-hjem |
+| **Desktop** | Sidebar, split prosjekter, kontor-dashboard |
+
+Etter kodeendringer: **hard refresh** (`Cmd+Shift+R`) eller privat vindu (gammel `main.dart.js` viser ikke nye layouts).
+
+```bash
+flutter run -d chrome --web-port=8080
+```
+
+**Ekte telefon/simulator:** `flutter run` på iOS eller Android — alltid Mobile-opplevelse.

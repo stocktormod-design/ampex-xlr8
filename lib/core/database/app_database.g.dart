@@ -2347,6 +2347,281 @@ class LocalProjectsCompanion extends UpdateCompanion<LocalProject> {
   }
 }
 
+class $LocalDrawingMarkupsTable extends LocalDrawingMarkups
+    with TableInfo<$LocalDrawingMarkupsTable, LocalDrawingMarkup> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LocalDrawingMarkupsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _drawingIdMeta = const VerificationMeta(
+    'drawingId',
+  );
+  @override
+  late final GeneratedColumn<String> drawingId = GeneratedColumn<String>(
+    'drawing_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _payloadJsonMeta = const VerificationMeta(
+    'payloadJson',
+  );
+  @override
+  late final GeneratedColumn<String> payloadJson = GeneratedColumn<String>(
+    'payload_json',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [drawingId, payloadJson, updatedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'local_drawing_markups';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<LocalDrawingMarkup> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('drawing_id')) {
+      context.handle(
+        _drawingIdMeta,
+        drawingId.isAcceptableOrUnknown(data['drawing_id']!, _drawingIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_drawingIdMeta);
+    }
+    if (data.containsKey('payload_json')) {
+      context.handle(
+        _payloadJsonMeta,
+        payloadJson.isAcceptableOrUnknown(
+          data['payload_json']!,
+          _payloadJsonMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_payloadJsonMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {drawingId};
+  @override
+  LocalDrawingMarkup map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LocalDrawingMarkup(
+      drawingId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}drawing_id'],
+      )!,
+      payloadJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payload_json'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $LocalDrawingMarkupsTable createAlias(String alias) {
+    return $LocalDrawingMarkupsTable(attachedDatabase, alias);
+  }
+}
+
+class LocalDrawingMarkup extends DataClass
+    implements Insertable<LocalDrawingMarkup> {
+  final String drawingId;
+  final String payloadJson;
+  final DateTime updatedAt;
+  const LocalDrawingMarkup({
+    required this.drawingId,
+    required this.payloadJson,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['drawing_id'] = Variable<String>(drawingId);
+    map['payload_json'] = Variable<String>(payloadJson);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  LocalDrawingMarkupsCompanion toCompanion(bool nullToAbsent) {
+    return LocalDrawingMarkupsCompanion(
+      drawingId: Value(drawingId),
+      payloadJson: Value(payloadJson),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory LocalDrawingMarkup.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LocalDrawingMarkup(
+      drawingId: serializer.fromJson<String>(json['drawingId']),
+      payloadJson: serializer.fromJson<String>(json['payloadJson']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'drawingId': serializer.toJson<String>(drawingId),
+      'payloadJson': serializer.toJson<String>(payloadJson),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  LocalDrawingMarkup copyWith({
+    String? drawingId,
+    String? payloadJson,
+    DateTime? updatedAt,
+  }) => LocalDrawingMarkup(
+    drawingId: drawingId ?? this.drawingId,
+    payloadJson: payloadJson ?? this.payloadJson,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  LocalDrawingMarkup copyWithCompanion(LocalDrawingMarkupsCompanion data) {
+    return LocalDrawingMarkup(
+      drawingId: data.drawingId.present ? data.drawingId.value : this.drawingId,
+      payloadJson: data.payloadJson.present
+          ? data.payloadJson.value
+          : this.payloadJson,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalDrawingMarkup(')
+          ..write('drawingId: $drawingId, ')
+          ..write('payloadJson: $payloadJson, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(drawingId, payloadJson, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LocalDrawingMarkup &&
+          other.drawingId == this.drawingId &&
+          other.payloadJson == this.payloadJson &&
+          other.updatedAt == this.updatedAt);
+}
+
+class LocalDrawingMarkupsCompanion extends UpdateCompanion<LocalDrawingMarkup> {
+  final Value<String> drawingId;
+  final Value<String> payloadJson;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const LocalDrawingMarkupsCompanion({
+    this.drawingId = const Value.absent(),
+    this.payloadJson = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  LocalDrawingMarkupsCompanion.insert({
+    required String drawingId,
+    required String payloadJson,
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  }) : drawingId = Value(drawingId),
+       payloadJson = Value(payloadJson),
+       updatedAt = Value(updatedAt);
+  static Insertable<LocalDrawingMarkup> custom({
+    Expression<String>? drawingId,
+    Expression<String>? payloadJson,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (drawingId != null) 'drawing_id': drawingId,
+      if (payloadJson != null) 'payload_json': payloadJson,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  LocalDrawingMarkupsCompanion copyWith({
+    Value<String>? drawingId,
+    Value<String>? payloadJson,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return LocalDrawingMarkupsCompanion(
+      drawingId: drawingId ?? this.drawingId,
+      payloadJson: payloadJson ?? this.payloadJson,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (drawingId.present) {
+      map['drawing_id'] = Variable<String>(drawingId.value);
+    }
+    if (payloadJson.present) {
+      map['payload_json'] = Variable<String>(payloadJson.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalDrawingMarkupsCompanion(')
+          ..write('drawingId: $drawingId, ')
+          ..write('payloadJson: $payloadJson, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -2355,6 +2630,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $CachedFilesTable cachedFiles = $CachedFilesTable(this);
   late final $LocalOrdersTable localOrders = $LocalOrdersTable(this);
   late final $LocalProjectsTable localProjects = $LocalProjectsTable(this);
+  late final $LocalDrawingMarkupsTable localDrawingMarkups =
+      $LocalDrawingMarkupsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2365,6 +2642,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     cachedFiles,
     localOrders,
     localProjects,
+    localDrawingMarkups,
   ];
 }
 
@@ -3571,6 +3849,186 @@ typedef $$LocalProjectsTableProcessedTableManager =
       LocalProject,
       PrefetchHooks Function()
     >;
+typedef $$LocalDrawingMarkupsTableCreateCompanionBuilder =
+    LocalDrawingMarkupsCompanion Function({
+      required String drawingId,
+      required String payloadJson,
+      required DateTime updatedAt,
+      Value<int> rowid,
+    });
+typedef $$LocalDrawingMarkupsTableUpdateCompanionBuilder =
+    LocalDrawingMarkupsCompanion Function({
+      Value<String> drawingId,
+      Value<String> payloadJson,
+      Value<DateTime> updatedAt,
+      Value<int> rowid,
+    });
+
+class $$LocalDrawingMarkupsTableFilterComposer
+    extends Composer<_$AppDatabase, $LocalDrawingMarkupsTable> {
+  $$LocalDrawingMarkupsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get drawingId => $composableBuilder(
+    column: $table.drawingId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$LocalDrawingMarkupsTableOrderingComposer
+    extends Composer<_$AppDatabase, $LocalDrawingMarkupsTable> {
+  $$LocalDrawingMarkupsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get drawingId => $composableBuilder(
+    column: $table.drawingId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$LocalDrawingMarkupsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $LocalDrawingMarkupsTable> {
+  $$LocalDrawingMarkupsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get drawingId =>
+      $composableBuilder(column: $table.drawingId, builder: (column) => column);
+
+  GeneratedColumn<String> get payloadJson => $composableBuilder(
+    column: $table.payloadJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$LocalDrawingMarkupsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $LocalDrawingMarkupsTable,
+          LocalDrawingMarkup,
+          $$LocalDrawingMarkupsTableFilterComposer,
+          $$LocalDrawingMarkupsTableOrderingComposer,
+          $$LocalDrawingMarkupsTableAnnotationComposer,
+          $$LocalDrawingMarkupsTableCreateCompanionBuilder,
+          $$LocalDrawingMarkupsTableUpdateCompanionBuilder,
+          (
+            LocalDrawingMarkup,
+            BaseReferences<
+              _$AppDatabase,
+              $LocalDrawingMarkupsTable,
+              LocalDrawingMarkup
+            >,
+          ),
+          LocalDrawingMarkup,
+          PrefetchHooks Function()
+        > {
+  $$LocalDrawingMarkupsTableTableManager(
+    _$AppDatabase db,
+    $LocalDrawingMarkupsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LocalDrawingMarkupsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$LocalDrawingMarkupsTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$LocalDrawingMarkupsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> drawingId = const Value.absent(),
+                Value<String> payloadJson = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => LocalDrawingMarkupsCompanion(
+                drawingId: drawingId,
+                payloadJson: payloadJson,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String drawingId,
+                required String payloadJson,
+                required DateTime updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => LocalDrawingMarkupsCompanion.insert(
+                drawingId: drawingId,
+                payloadJson: payloadJson,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$LocalDrawingMarkupsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $LocalDrawingMarkupsTable,
+      LocalDrawingMarkup,
+      $$LocalDrawingMarkupsTableFilterComposer,
+      $$LocalDrawingMarkupsTableOrderingComposer,
+      $$LocalDrawingMarkupsTableAnnotationComposer,
+      $$LocalDrawingMarkupsTableCreateCompanionBuilder,
+      $$LocalDrawingMarkupsTableUpdateCompanionBuilder,
+      (
+        LocalDrawingMarkup,
+        BaseReferences<
+          _$AppDatabase,
+          $LocalDrawingMarkupsTable,
+          LocalDrawingMarkup
+        >,
+      ),
+      LocalDrawingMarkup,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -3585,4 +4043,6 @@ class $AppDatabaseManager {
       $$LocalOrdersTableTableManager(_db, _db.localOrders);
   $$LocalProjectsTableTableManager get localProjects =>
       $$LocalProjectsTableTableManager(_db, _db.localProjects);
+  $$LocalDrawingMarkupsTableTableManager get localDrawingMarkups =>
+      $$LocalDrawingMarkupsTableTableManager(_db, _db.localDrawingMarkups);
 }

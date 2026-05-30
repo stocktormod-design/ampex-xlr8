@@ -4,14 +4,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/auth/profile_repository.dart';
 import '../../../core/auth/session_providers.dart';
-import '../../../core/theme/app_breakpoints.dart';
+import '../../../core/platform/app_product_provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/ampex_scaffold.dart';
+import '../mobile/presentation/mobile_home_screen.dart';
 import 'home_dashboard_screen.dart';
-import 'widgets/dashboard_header.dart';
 
+/// Adaptivt hjem – felt vs kontor.
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
@@ -56,17 +57,11 @@ class HomeScreen extends ConsumerWidget {
           );
         }
 
-        if (context.hasSideNav) {
+        if (context.isAmpexDesktop) {
           return HomeDashboardScreen(session: session);
         }
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const DashboardHeader(),
-            Expanded(child: HomeDashboardScreen(session: session)),
-          ],
-        );
+        return MobileHomeScreen(session: session);
       },
     );
   }

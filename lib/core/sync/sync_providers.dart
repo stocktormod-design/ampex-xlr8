@@ -43,8 +43,14 @@ class _SyncOrchestratorState extends ConsumerState<SyncOrchestrator> {
 
   Future<void> _syncIfOnline() async {
     if (!ref.read(isOnlineProvider)) return;
-    await ref.read(syncEngineProvider).runOnce();
-    if (mounted) ref.invalidate(pendingSyncCountProvider);
+    try {
+      await ref.read(syncEngineProvider).runOnce().timeout(
+            const Duration(seconds: 15),
+          );
+      if (mounted) ref.invalidate(pendingSyncCountProvider);
+    } catch (e, stack) {
+      debugPrint('SyncOrchestrator: $e\n$stack');
+    }
   }
 
   @override

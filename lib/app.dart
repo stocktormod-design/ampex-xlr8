@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/config/app_config.dart';
 import 'core/config/env.dart';
+import 'core/platform/app_product_provider.dart';
 import 'core/routing/app_router.dart';
 import 'core/theme/app_colors.dart';
 import 'core/theme/app_typography.dart';
@@ -23,11 +24,12 @@ class AmpexApp extends ConsumerWidget {
     }
 
     final router = ref.watch(routerProvider);
+    final product = ref.watch(appProductProvider);
 
     return MaterialApp.router(
       title: AppConfig.appName,
-      theme: AppTheme.light(),
-      scrollBehavior: _AmpexScrollBehavior(),
+      theme: AppTheme.forProduct(product),
+      scrollBehavior: const _AmpexScrollBehavior(),
       locale: const Locale('nb'),
       supportedLocales: const [Locale('nb')],
       localizationsDelegates: const [
@@ -36,12 +38,18 @@ class AmpexApp extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       routerConfig: router,
+      builder: (context, child) {
+        return AmpexProductBinder(
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
     );
   }
 }
 
-/// Bouncing scroll på alle plattformer (iOS-feeling).
 class _AmpexScrollBehavior extends MaterialScrollBehavior {
+  const _AmpexScrollBehavior();
+
   @override
   ScrollPhysics getScrollPhysics(BuildContext context) {
     return const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics());

@@ -44,23 +44,36 @@ Web og mobil deler **samme** Supabase-prosjekt per miljø. Mobil introduserer ik
 lib/
 ├── main.dart
 ├── app.dart
-├── bootstrap.dart
-├── core/           # tverrgående: config, theme, routing, db, sync, auth
-└── features/       # vertikale snitt
+├── core/           # config, theme, platform, routing, db, sync, auth
+└── features/
     ├── auth/
     ├── shell/
+    │   ├── mobile/presentation/
+    │   ├── desktop/presentation/
+    │   └── shared/presentation/
     ├── orders/
-    ├── projects/
-    └── shared/
+    └── projects/
 ```
 
-Per feature (når den bygges):
+### To produkter (Mobile vs Desktop)
+
+**Ikke** responsiv skalering — **to** UI-produkter over samme backend.
+
+| | Ampex Mobile | Ampex Desktop |
+|--|--------------|---------------|
+| Analogi | iOS | macOS |
+| Rolle | Arbeidsverktøy på plass | Kontrollsenter på kontor |
+
+Se **[frontend-architecture.md](frontend-architecture.md)**.
+
+Per feature:
 
 ```
-features/orders/
-├── data/           # DTO, DAO, Supabase-kall
-├── domain/         # entiteter / use cases (kun ved behov)
-└── presentation/   # skjermer + providers
+features/projects/
+├── shared/         # domain, data, providers (barrel)
+├── mobile/         # field UI
+├── desktop/        # office UI
+└── presentation/   # adaptive entry + shared providers
 ```
 
 ## Lagregler

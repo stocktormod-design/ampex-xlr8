@@ -104,7 +104,8 @@ class _DrawingGroup extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return AmpexGroupedSection(
       header: header,
-      footer: 'Trykk for å åpne PDF. Første åpning lagres lokalt.',
+      footer:
+          'Åpne tegning for markering: linje, punkt, detektor, tekst og rom. Lagres lokalt.',
       dividerIndent: 64,
       children: [
         for (final drawing in drawings)

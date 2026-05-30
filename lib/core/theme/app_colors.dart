@@ -1,72 +1,56 @@
 import 'package:flutter/cupertino.dart';
 
-/// Ampex palette tuned to the referenced web dashboard.
+import 'tokens/design_tokens.dart';
+
+/// Semantiske farger – bygger på [DesignTokens].
 abstract final class AppColors {
-  static const background = Color(0xFF060C18);
-  static const surface = Color(0xFF0B1528);
-  static const surfaceElevated = Color(0xFF101B30);
-  static const surfaceHighlight = Color(0xFF14233D);
+  static const background = DesignTokens.background;
+  static const surface = DesignTokens.surface;
+  static const surfaceElevated = DesignTokens.surfaceElevated;
+  static const surfaceHighlight = DesignTokens.surfaceMuted;
 
-  static const label = Color(0xFFF3F7FF);
-  static const labelSecondary = Color(0xFF9FB0CD);
-  static const labelTertiary = Color(0xFF6F7F9A);
-  static const labelPlaceholder = Color(0xFF7382A1);
+  static const label = DesignTokens.textPrimary;
+  static const labelSecondary = DesignTokens.textSecondary;
+  static const labelTertiary = DesignTokens.textTertiary;
+  static const labelPlaceholder = DesignTokens.textTertiary;
 
-  static const accent = Color(0xFF2F7BFF);
-  static const accentSecondary = Color(0xFF59A2FF);
-  static const accentPressed = Color(0x332F7BFF);
-  static const accentSoft = Color(0x1A2F7BFF);
-  static const onAccent = Color(0xFFF8FBFF);
+  static const accent = DesignTokens.accent;
+  static const accentSecondary = Color(0xFF3B82F6);
+  static const accentPressed = Color(0x1A2563EB);
+  static const accentSoft = DesignTokens.accentSoft;
+  static const onAccent = DesignTokens.onAccent;
 
-  static const LinearGradient accentGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [Color(0xFF3D8BFF), Color(0xFF1D61F1)],
-  );
+  static const statusNeutral = DesignTokens.textTertiary;
+  static const statusActive = DesignTokens.accent;
+  static const statusWaiting = DesignTokens.warning;
+  static const statusDone = DesignTokens.success;
 
-  static const statusNeutral = Color(0xFF8B9BBC);
-  static const statusActive = Color(0xFF2F7BFF);
-  static const statusWaiting = Color(0xFFFFA53D);
-  static const statusDone = Color(0xFF3DDC84);
+  static const destructive = DesignTokens.destructive;
+  static const success = DesignTokens.success;
+  static const warning = DesignTokens.warning;
 
-  static const destructive = Color(0xFFFF6E7A);
-  static const success = Color(0xFF3DDC84);
-  static const warning = Color(0xFFFFA53D);
+  static const separator = Color(0xFFE5E7EB);
+  static const border = DesignTokens.border;
+  static const borderGlow = Color(0x332563EB);
+  static const separatorOpaque = DesignTokens.borderStrong;
 
-  static const separator = Color(0x2A6B88B3);
-  static const border = Color(0x2D7FA2D9);
-  static const borderGlow = Color(0x337CA9FF);
-  static const separatorOpaque = Color(0xFF1A2944);
+  static const cardHighlight = DesignTokens.surfaceMuted;
+  static const shadow = DesignTokens.shadow;
 
-  static const cardHighlight = Color(0xFF11203A);
-  static const shadow = Color(0x50030B1A);
+  static const pressed = accentPressed;
+  static const hover = Color(0x0F2563EB);
+  static const selected = Color(0x1A2563EB);
+
+  static const barBackground = surface;
+  static const sidebarBackground = surface;
+
+  // CAD-tegning (mørk flate – kun tegningsmodus)
+  static const cadCanvas = Color(0xFF0E1118);
+  static const cadPaper = Color(0xFFF4F4F0);
 
   static const LinearGradient cardGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: [Color(0xFF0F1A2F), Color(0xFF091326)],
-  );
-
-  static const LinearGradient heroGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [Color(0xFF152A4D), Color(0xFF0A1224)],
-  );
-
-  static const pressed = Color(0x1A2F7BFF);
-  static const hover = Color(0x142F7BFF);
-  static const selected = Color(0x262F7BFF);
-
-  static const barBackground = Color(0xE60B1528);
-  static const sidebarBackground = Color(0xFF050C1A);
-
-  static const glassSurface = surface;
-  static const glassBar = barBackground;
-  static const glassBorder = border;
-
-  static const LinearGradient backdropGradient = LinearGradient(
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
-    colors: [Color(0xFF061024), Color(0xFF040A16)],
+    colors: [surface, surfaceHighlight],
   );
 }
